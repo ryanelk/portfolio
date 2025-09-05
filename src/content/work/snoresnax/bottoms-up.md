@@ -1,14 +1,14 @@
 ---
-title: Duvet Genius
-publishDate: 2020-03-04 00:00:00
-img: /assets/stock-3.jpg
-img_alt: Pearls of silky soft white cotton, bubble up under vibrant lighting
+title: Bottoms Up
+publishDate: 2022-02-01 00:00:00
+img: /assets/projects/6.png
+img_alt: Collaborate to recreate recipes in asymmetrical platformer
 description: |
-  We developed a virtual showcase for the softest bedding imaginable.
+  Collaborate to recreate recipes in asymmetrical platformer. Made in Godot for Multiplayer Game Jam, Aug 2022
 tags:
-  - Design
   - Dev
   - Branding
+  - Backend
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur posuere commodo venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam non ligula vel metus efficitur hendrerit. In hac habitasse platea dictumst. Praesent et mauris ut mi dapibus semper. Curabitur tortor justo, efficitur sit amet pretium cursus, porta eget odio. Cras ac venenatis dolor. Donec laoreet posuere malesuada. Curabitur nec mi tempor, placerat leo sit amet, tincidunt est. Quisque pellentesque venenatis magna, eget tristique nibh pulvinar in. Vestibulum vitae volutpat arcu. Aenean ut malesuada odio, sit amet pellentesque odio. Suspendisse nunc elit, blandit nec hendrerit non, aliquet at magna. Donec id leo ut nulla sagittis sodales.

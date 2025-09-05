@@ -1,11 +1,10 @@
 ---
-title: Bloom Box
-publishDate: 2019-12-01 00:00:00
-img: /assets/stock-2.jpg
-img_alt: A bright pink sheet of paper used to wrap flowers curves in front of rich blue background
+title: Aguas
+publishDate: 2023-10-01 00:00:00
+img: /assets/projects/10.png
+img_alt: Escape from a jar of aguas frescas
 description: |
-  We paired with a cutting-edge music API and a team of horticulturalists
-  to build AI-generated playlists that maximize houseplant health.
+  Escape from a jar of aguas frescas. Made in Godot for Con Latinidad, Oct 2023
 tags:
   - Dev
   - Branding
