@@ -1,7 +1,7 @@
 ---
 title: Sonidos
-publishDate: 2022-02-01 00:00:00
-img: /assets/projects/14.png
+publishDate: 2024-04-01 00:00:00
+img: assets/projects/14.png
 img_alt: Explore the lost culture of a remote island as a sound recording robot
 description: |
   Explore the lost culture of a remote island as a sound recording robot. Made in Godot for the LAGS Game Jam, Apr 2024

@@ -1,7 +1,7 @@
 ---
 title: Lotería o Llorar
-publishDate: 2022-02-01 00:00:00
-img: /assets/projects/13.png
+publishDate: 2024-10-01 00:00:00
+img: assets/projects/13.png
 img_alt: Rescue your beloved perrito in a deadly game of lotería
 description: |
   Rescue your beloved perrito in a deadly game of lotería. Made in Godot for Unidos Hispanic Heritage Month, Oct 2024

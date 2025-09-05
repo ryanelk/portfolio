@@ -1,7 +1,7 @@
 ---
 title: Eternal Sanctuary
 publishDate: 2022-02-01 00:00:00
-img: /assets/projects/5.png
+img: assets/projects/5.png
 img_alt: OST created for an imaginary game about runaways who seek refuge in an abandoned house
 description: |
   OST created for an imaginary game about runaways who seek refuge in an abandoned house. Made in Ableton for OST Composing Jam 4, Jul 2022

@@ -1,7 +1,7 @@
 ---
 title: Bottoms Up
-publishDate: 2022-02-01 00:00:00
-img: /assets/projects/6.png
+publishDate: 2022-08-01 00:00:00
+img: assets/projects/6.png
 img_alt: Collaborate to recreate recipes in asymmetrical platformer
 description: |
   Collaborate to recreate recipes in asymmetrical platformer. Made in Godot for Multiplayer Game Jam, Aug 2022

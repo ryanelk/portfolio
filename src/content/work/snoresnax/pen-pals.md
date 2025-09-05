@@ -1,7 +1,7 @@
 ---
 title: Pen Pals
-publishDate: 2022-02-01 00:00:00
-img: /assets/projects/4.png
+publishDate: 2022-04-01 00:00:00
+img: assets/projects/4.png
 img_alt: Guide letters to their destination or demise in branching narrative experience
 description: |
   Guide letters to their destination or demise in branching narrative experience. Made in Godot for Black and White Jam 8, Apr 2022

@@ -1,7 +1,7 @@
 ---
 title: Wingit
-publishDate: 2022-02-01 00:00:00
-img: /assets/projects/9.png
+publishDate: 2023-05-01 00:00:00
+img: assets/projects/9.png
 img_alt: Alter bad pick-up lines in revolutionary dating app
 description: |
   Alter bad pick-up lines in revolutionary dating app. Made in Godot for Indiepocalypse Issue 42, May 2023

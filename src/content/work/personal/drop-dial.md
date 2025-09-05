@@ -1,7 +1,7 @@
 ---
 title: Drop Dial
 publishDate: 2018-03-01 00:00:00
-img: /assets/projects/0.png
+img: assets/projects/0.png
 img_alt: Control a rotating, music-powered bar in a low-saturation cityscape
 description: |
   Control a rotating, music-powered bar in a low-saturation cityscape. Made in Unity for UC Berkeley's Game Design DeCal, Spring 2018

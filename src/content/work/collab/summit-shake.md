@@ -1,7 +1,7 @@
 ---
 title: Summit Shake
 publishDate: 2020-05-01 00:00:00
-img: /assets/projects/1.png
+img: assets/projects/1.png
 img_alt: Shake climbers off your sides as a sentient mountain
 description: |
   Shake climbers off your sides as a sentient mountain. Made in PICO-8 for The Dream Arcade Archive, May 2020

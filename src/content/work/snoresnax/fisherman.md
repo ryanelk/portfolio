@@ -1,7 +1,7 @@
 ---
 title: Fisherman
-publishDate: 2022-02-01 00:00:00
-img: /assets/projects/7.png
+publishDate: 2022-10-01 00:00:00
+img: assets/projects/7.png
 img_alt: Play a twisted game of fetch to capture lost spirits
 description: |
   Play a twisted game of fetch to capture lost spirits. Made in Godot for AI and Games Jam, Oct 2022

@@ -1,7 +1,7 @@
 ---
 title: Aguas
 publishDate: 2023-10-01 00:00:00
-img: /assets/projects/10.png
+img: assets/projects/10.png
 img_alt: Escape from a jar of aguas frescas
 description: |
   Escape from a jar of aguas frescas. Made in Godot for Con Latinidad, Oct 2023

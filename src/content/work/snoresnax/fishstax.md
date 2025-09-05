@@ -1,7 +1,7 @@
 ---
 title: Fishstax
-publishDate: 2022-02-01 00:00:00
-img: /assets/projects/4.png
+publishDate: 2024-07-01 00:00:00
+img: assets/projects/4.png
 img_alt: Stack fish with reactive abilities into iconic shapes
 description: |
   Stack fish with reactive abilities into iconic shapes. Made in Godot for Thinky Puzzle Jam 4, Jul 2024

@@ -1,7 +1,7 @@
 ---
 title: ¡Espere!
 publishDate: 2020-10-01 00:00:00
-img: /assets/projects/2.png
+img: assets/projects/2.png
 img_alt: Play as a street vendor serving up paletas on a hot, sunny day
 description: |
   Play as a street vendor serving up paletas on a hot, sunny day. Made in Unity for Hispanic Heritage Month Jam, Oct 2020

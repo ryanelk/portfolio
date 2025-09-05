@@ -1,7 +1,7 @@
 ---
 title: Egg on a Wire
 publishDate: 2022-02-01 00:00:00
-img: /assets/projects/3.png
+img: assets/projects/3.png
 img_alt: Keep the egg safe from sparks by manipulating telephone wires
 description: |
   Keep the egg safe from sparks by manipulating telephone wires. Made in Godot for Mini Jam 99, Feb 2022

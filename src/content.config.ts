@@ -12,6 +12,11 @@ export const collections = {
 			tags: z.array(z.string()),
 			img: z.string(),
 			img_alt: z.string().optional(),
+			link: z.string().optional(),
+			video: z.string().optional(),
+			gif_0: z.string().optional(),
+			gif_1: z.string().optional(),
+			gif_2: z.string().optional(),
 		}),
 	}),
 };

@@ -1,7 +1,7 @@
 ---
 title: Mural
 publishDate: 2022-10-01 00:00:00
-img: /assets/projects/8.png
+img: assets/projects/8.png
 img_alt: Rediscover a faded mural by repainting it
 description: |
   Rediscover a faded mural by repainting it. Made in Godot for Hispanic Heritage Month, Oct 2022

@@ -5,9 +5,9 @@ import ThemeToggle from './ThemeToggle.astro';
 
 /** Main menu items */
 const textLinks: { label: string; href: string }[] = [
-	{ label: 'Projects', href: '/work' },
-	{ label: 'Resume', href: '/resume/' },
-	{ label: 'About', href: '/about/' },
+	{ label: 'Projects', href: `${import.meta.env.BASE_URL}/work/` },
+	{ label: 'Resume', href: `${import.meta.env.BASE_URL}/resume/` },
+	{ label: 'About', href: `${import.meta.env.BASE_URL}/about/` },
 ];
 
 /** Icon links to social media — edit these with links to your profiles! */
@@ -67,7 +67,7 @@ const isCurrentPage = (href: string) => {
 			}
 		</ul>
 		<div class="menu-header">
-		<a href="/" class="site-title">
+		<a href=`${import.meta.env.BASE_URL}/` class="site-title">
 			Ryan El Khoury
 		</a>
 		<menu-button>
