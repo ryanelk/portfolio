@@ -10,13 +10,6 @@ const textLinks: { label: string; href: string }[] = [
 	{ label: 'About', href: `${import.meta.env.BASE_URL}/about/` },
 ];
 
-/** Icon links to social media — edit these with links to your profiles! */
-const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[] = [
-	{ label: 'Twitter', href: 'https://twitter.com/me', icon: 'twitter-logo' },
-	{ label: 'GitHub', href: 'https://github.com/me', icon: 'github-logo' },
-	{ label: 'YouTube', href: 'https://www.youtube.com/@me/', icon: 'youtube-logo' },
-];
-
 /** Test if a link is pointing to the current page. */
 const isCurrentPage = (href: string) => {
 	let pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
@@ -39,20 +32,6 @@ const isCurrentPage = (href: string) => {
 				))
 			}
 		</ul>
-	</noscript>
-	<noscript>
-		<div class="menu-footer">
-			<div class="socials">
-				{
-					iconLinks.map(({ href, icon, label }) => (
-						<a href={href} class="social">
-							<span class="sr-only">{label}</span>
-							<Icon icon={icon} />
-						</a>
-					))
-				}
-			</div>
-		</div>
 	</noscript>
 	<div id="menu-content" hidden>
 		<ul class="nav-items">
@@ -79,20 +58,8 @@ const isCurrentPage = (href: string) => {
 			</template>
 		</menu-button>
 	</div>
-		<div class="menu-footer">
-			<div class="socials">
-				{
-					iconLinks.map(({ href, icon, label }) => (
-						<a href={href} class="social">
-							<span class="sr-only">{label}</span>
-							<Icon icon={icon} />
-						</a>
-					))
-				}
-			</div>
-			<div class="theme-toggle">
-				<ThemeToggle />
-			</div>
+		<div class="theme-toggle">
+			<ThemeToggle />
 		</div>
 	</div>
 </nav>
@@ -258,6 +225,7 @@ const isCurrentPage = (href: string) => {
 		display: flex;
 		align-items: center;
 		height: calc(var(--icon-size) + 2 * var(--icon-padding));
+  		justify-content: flex-end;
 	}
 
 	@media (min-width: 50em) {
