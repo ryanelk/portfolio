@@ -29,7 +29,7 @@ const resume = `${baseAssetUrl}Reina_Resume_2025_Fall_2.pdf`;
 
         <!-- PDF Embed -->
         <iframe 
-            src={`${resume}#view=FitH&toolbar=0&navpanes=0`}
+            src={resume}
             class="resume-embed"
             title="Resume">
         </iframe>
@@ -119,7 +119,6 @@ const resume = `${baseAssetUrl}Reina_Resume_2025_Fall_2.pdf`;
 	}
   .resume-container {
     max-width: 95vw;
-    margin: 0 auto;
     padding: 2rem;
   }
 
@@ -158,6 +157,7 @@ const resume = `${baseAssetUrl}Reina_Resume_2025_Fall_2.pdf`;
     border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    oveflow: hidden;
   }
 
   .fallback-message {
@@ -187,6 +187,7 @@ const resume = `${baseAssetUrl}Reina_Resume_2025_Fall_2.pdf`;
           border-radius: 0.5rem;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
           object-fit: contain;
+          oveflow: hidden;
       }
   }
 </style>
