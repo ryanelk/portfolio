@@ -33,10 +33,14 @@ export const GET: APIRoute = async () => {
   const data = await res.json();
   const track = data.recenttracks?.track?.[0];
 
-  const currTrack = processTrackData(track);
-  return new Response(JSON.stringify({
-      currTrack
-    }), {
-      headers: { 'Content-Type': 'application/json' }
+  if (!track) {
+    return new Response(JSON.stringify({ currTrack: null }), {
+      headers: { 'Content-Type': 'application/json' },
     });
+  }
+
+  const currTrack = processTrackData(track);
+  return new Response(JSON.stringify({ currTrack }), {
+    headers: { 'Content-Type': 'application/json' },
+  });
 };

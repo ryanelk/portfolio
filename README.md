@@ -1,30 +1,55 @@
-# Astro Starter Kit: Portfolio
+# Portfolio
+
+Personal portfolio site built with [Astro](https://astro.build) and deployed to GitHub Pages at [ryanelk.github.io/portfolio](https://ryanelk.github.io/portfolio).
+
+## Stack
+
+- **Astro 5** — static site framework
+- **TypeScript** — strict mode
+- **GitHub Actions** — auto-deploys to GitHub Pages on push to `main`
+- **Spotify API** — `/api/nowplaying` endpoint for live music status
+
+## Getting Started
 
 ```sh
-npm create astro@latest -- --template portfolio
+npm install
+npm run dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/portfolio)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/portfolio)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/portfolio/devcontainer.json)
+The dev server starts at `http://localhost:4321/portfolio`.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-![portfolio](https://user-images.githubusercontent.com/357379/210779178-a98f0fb7-6b1a-4068-894c-8e1403e26654.jpg)
+| Command           | Action                                      |
+| :---------------- | :------------------------------------------ |
+| `npm run dev`     | Start local dev server at `localhost:4321`  |
+| `npm run build`   | Build production site to `./dist/`          |
+| `npm run preview` | Preview the production build locally        |
 
-## 🧞 Commands
+## Testing
 
-All commands are run from the root of the project, from a terminal:
+There is no automated test suite. To verify changes work correctly:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+1. Run `npm run dev` and check your changes in the browser
+2. Run `npm run build` to confirm the production build succeeds with no errors
+3. Run `npm run preview` to spot-check the built output before opening a PR
 
-## 👀 Want to learn more?
+## Contributing / Pull Requests
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1. Branch off `main` with a descriptive name — e.g. `feature-about-page` or `fix-footer-icons`
+2. Make your changes and verify them with the steps above
+3. Open a PR against `main`
+4. Once merged, GitHub Actions automatically builds and deploys the site to GitHub Pages
+
+## Project Structure
+
+```
+src/
+├── components/     # Reusable Astro components
+├── content/work/   # Project entries (Markdown), organized by category
+├── layouts/        # BaseLayout.astro
+└── pages/          # Routes — index, about, work, resume, 404
+    └── api/        # nowplaying.ts (Spotify now-playing endpoint)
+public/
+└── assets/         # Images and static files
+```
