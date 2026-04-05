@@ -1,4 +1,5 @@
 ---
+import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const resume = `${import.meta.env.BASE_URL}/assets/resume/ryanelkhoury_resume_2026.pdf`;
@@ -6,7 +7,10 @@ const resume = `${import.meta.env.BASE_URL}/assets/resume/ryanelkhoury_resume_20
 
 <BaseLayout title="Resume" description="About Ryan El Khoury Lorem Ipsum">
 	<div class="stack gap-20">
-		<div class="resume-container">
+		<main class="wrapper">
+			<Hero title="Resume" tagline="" />
+		</main>
+		<div class="wrapper resume-container">
 			<div class="download-section">
 				<a href={resume} download="ryanelkhoury_resume_2026.pdf" class="download-btn">
 					<svg class="download-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -16,41 +20,70 @@ const resume = `${import.meta.env.BASE_URL}/assets/resume/ryanelkhoury_resume_20
 				</a>
 			</div>
 
-			<iframe
-				src={resume}
-				class="resume-embed"
-				title="Resume"
-				data-resume-src={resume}>
-			</iframe>
+			<div id="pdf-container" data-src={resume}>
+				<p id="pdf-loading" class="loading-message">Loading resume...</p>
+			</div>
 
 			<div class="fallback-message" id="resume-fallback" style="display:none">
-				<p>Unable to display PDF in your browser.</p>
-				<a href={resume} class="fallback-link" target="_blank">Click here to view the resume</a>
+				<p>Unable to display resume.</p>
+				<a href={resume} class="fallback-link" target="_blank">Click here to open it directly</a>
 			</div>
 		</div>
 	</div>
 
 	<script>
-		const iframe = document.querySelector<HTMLIFrameElement>('.resume-embed');
-		iframe?.addEventListener('error', () => {
-			iframe.style.display = 'none';
-			const fallback = document.getElementById('resume-fallback');
-			if (fallback) fallback.style.display = 'block';
-		});
+		import * as pdfjsLib from 'pdfjs-dist';
+		import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+
+		pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+
+		const container = document.getElementById('pdf-container') as HTMLElement;
+		const pdfUrl = container?.dataset.src;
+
+		async function renderPDF(url: string) {
+			try {
+				const pdf = await pdfjsLib.getDocument(url).promise;
+
+				for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+					const page = await pdf.getPage(pageNum);
+
+					// Scale to fit container width
+					const containerWidth = container.clientWidth;
+					const baseViewport = page.getViewport({ scale: 1 });
+					const scale = containerWidth / baseViewport.width;
+					const viewport = page.getViewport({ scale });
+
+					const canvas = document.createElement('canvas');
+					const ctx = canvas.getContext('2d')!;
+					canvas.width = viewport.width;
+					canvas.height = viewport.height;
+					canvas.className = 'pdf-page';
+
+					container.appendChild(canvas);
+					await page.render({ canvasContext: ctx, viewport }).promise;
+				}
+
+				document.getElementById('pdf-loading')?.remove();
+			} catch {
+				document.getElementById('pdf-loading')?.remove();
+				container.style.display = 'none';
+				const fallback = document.getElementById('resume-fallback');
+				if (fallback) fallback.style.display = 'block';
+			}
+		}
+
+		if (pdfUrl) renderPDF(pdfUrl);
 	</script>
 </BaseLayout>
 
 <style>
 	.resume-container {
-		max-width: 95vw;
 		padding: 2rem;
 	}
 
 	.download-section {
 		display: flex;
-		flex-wrap: wrap;
 		justify-content: center;
-		gap: 1rem;
 		margin-bottom: 2rem;
 	}
 
@@ -78,13 +111,23 @@ const resume = `${import.meta.env.BASE_URL}/assets/resume/ryanelkhoury_resume_20
 		height: 1.25rem;
 	}
 
-	.resume-embed {
+	#pdf-container {
 		width: 100%;
-		height: 80vh;
-		border: 1px solid var(--gray-800);
+	}
+
+	:global(.pdf-page) {
+		width: 100%;
+		height: auto;
+		display: block;
+		margin-bottom: 1rem;
 		border-radius: 0.5rem;
 		box-shadow: var(--shadow-md);
-		overflow: hidden;
+	}
+
+	.loading-message {
+		text-align: center;
+		padding: 2rem;
+		color: var(--gray-400);
 	}
 
 	.fallback-message {
@@ -105,11 +148,6 @@ const resume = `${import.meta.env.BASE_URL}/assets/resume/ryanelkhoury_resume_20
 	@media (max-width: 768px) {
 		.resume-container {
 			padding: 1rem;
-		}
-
-		.resume-embed {
-			height: 90vh;
-			overflow: hidden;
 		}
 	}
 </style>
