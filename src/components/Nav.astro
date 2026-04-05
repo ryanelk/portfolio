@@ -2,6 +2,7 @@
 import Icon from './Icon.astro';
 import type { iconPaths } from './IconPaths';
 import ThemeToggle from './ThemeToggle.astro';
+import MusicStatus from './MusicStatus.astro';
 
 /** Main menu items */
 const textLinks: { label: string; href: string }[] = [
@@ -47,7 +48,7 @@ const isCurrentPage = (href: string) => {
 		</ul>
 		<div class="menu-header">
 		<a href=`${import.meta.env.BASE_URL}/` class="site-title">
-			Ryan El Khoury
+			Reina El Khoury
 		</a>
 		<menu-button>
 			<template>
@@ -59,9 +60,12 @@ const isCurrentPage = (href: string) => {
 		</menu-button>
 	</div>
 		<div class="theme-toggle">
+      <MusicStatus client:load />
 			<ThemeToggle />
 		</div>
 	</div>
+  
+
 </nav>
 
 <script>
@@ -224,6 +228,7 @@ const isCurrentPage = (href: string) => {
 	.theme-toggle {
 		display: flex;
 		align-items: center;
+    gap: 1rem;
 		height: calc(var(--icon-size) + 2 * var(--icon-padding));
   		justify-content: flex-end;
 	}
