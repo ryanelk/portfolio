@@ -1,193 +1,115 @@
 ---
-import ContactCTA from '../components/ContactCTA.astro';
-import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const baseAssetUrl = `${import.meta.env.BASE_URL}/assets/`;
-const resume = `${baseAssetUrl}Reina_Resume_2025_Fall_2.pdf`;
+const resume = `${import.meta.env.BASE_URL}/assets/resume/ryanelkhoury_resume_2026.pdf`;
 ---
-
-
 
 <BaseLayout title="Resume" description="About Ryan El Khoury Lorem Ipsum">
 	<div class="stack gap-20">
-    <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    <div class="resume-container">
-        <div class="download-section">
-            <a href={resume} download="YourName-Resume.pdf" class="download-btn">
-                <svg class="download-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Download Resume
-            </a>
-        </div>
+		<div class="resume-container">
+			<div class="download-section">
+				<a href={resume} download="ryanelkhoury_resume_2026.pdf" class="download-btn">
+					<svg class="download-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+					</svg>
+					Download Resume
+				</a>
+			</div>
 
-        <!-- PDF Embed -->
-        <iframe 
-            src={resume}
-            class="resume-embed"
-            title="Resume">
-        </iframe>
+			<iframe
+				src={resume}
+				class="resume-embed"
+				title="Resume"
+				data-resume-src={resume}>
+			</iframe>
 
-        <!-- Fallback for browsers that don't support PDF embedding -->
-        <noscript>
-            <div class="fallback-message">
-                <p>Your browser doesn't support PDF embedding.</p>
-                <a href={resume} class="fallback-link" target="_blank">Click here to view the resume</a>
-            </div>
-        </noscript>
-    </div>
-
-    <script>
-        // Handle iframe load errors (e.g., if PDF plugin not available)
-        document.querySelector('.resume-embed').addEventListener('error', function() {
-            this.style.display = 'none';
-            const fallback = document.createElement('div');
-            fallback.className = 'fallback-message';
-            fallback.innerHTML = `
-                <p>Unable to display PDF in browser.</p>
-                <a href="/resume.pdf" class="fallback-link" target="_blank">Click here to view the resume</a>
-            `;
-            this.parentNode.appendChild(fallback);
-        });
-    </script>
-  </body>
+			<div class="fallback-message" id="resume-fallback" style="display:none">
+				<p>Unable to display PDF in your browser.</p>
+				<a href={resume} class="fallback-link" target="_blank">Click here to view the resume</a>
+			</div>
+		</div>
 	</div>
+
+	<script>
+		const iframe = document.querySelector<HTMLIFrameElement>('.resume-embed');
+		iframe?.addEventListener('error', () => {
+			iframe.style.display = 'none';
+			const fallback = document.getElementById('resume-fallback');
+			if (fallback) fallback.style.display = 'block';
+		});
+	</script>
 </BaseLayout>
 
 <style>
-	.about {
-		display: flex;
-		flex-direction: column;
-		gap: 3.5rem;
+	.resume-container {
+		max-width: 95vw;
+		padding: 2rem;
 	}
 
-	img {
-		margin-top: 1.5rem;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
+	.download-section {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+		margin-bottom: 2rem;
 	}
 
-	section {
-		display: flex;
-		flex-direction: column;
+	.download-btn {
+		display: inline-flex;
+		align-items: center;
 		gap: 0.5rem;
-		color: var(--gray-200);
+		background: var(--accent-regular);
+		color: var(--accent-text-over);
+		padding: 0.75rem 1.5rem;
+		border: none;
+		border-radius: 0.5rem;
+		text-decoration: none;
+		font-weight: 600;
+		transition: background-color var(--theme-transition);
+		cursor: pointer;
 	}
 
-	.section-title {
-		grid-column-start: 1;
-		font-size: var(--text-xl);
-		color: var(--gray-0);
+	.download-btn:hover {
+		background: var(--accent-dark);
 	}
 
-	.content {
-		grid-column: 2 / 4;
+	.download-icon {
+		width: 1.25rem;
+		height: 1.25rem;
 	}
 
-	.content :global(a) {
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
+	.resume-embed {
+		width: 100%;
+		height: 80vh;
+		border: 1px solid var(--gray-800);
+		border-radius: 0.5rem;
+		box-shadow: var(--shadow-md);
+		overflow: hidden;
 	}
 
-	.content :global(a:hover),
-	.content :global(a:focus) {
-		text-decoration-color: currentColor;
+	.fallback-message {
+		text-align: center;
+		padding: 2rem;
+		color: var(--gray-400);
 	}
 
-	@media (min-width: 50em) {
-		.about {
-			display: grid;
-			grid-template-columns: 1fr 60% 1fr;
+	.fallback-link {
+		color: var(--accent-regular);
+		text-decoration: none;
+	}
+
+	.fallback-link:hover {
+		text-decoration: underline;
+	}
+
+	@media (max-width: 768px) {
+		.resume-container {
+			padding: 1rem;
 		}
 
-		.about > :global(:first-child) {
-			grid-column-start: 2;
+		.resume-embed {
+			height: 90vh;
+			overflow: hidden;
 		}
-
-		section {
-			display: contents;
-			font-size: var(--text-lg);
-		}
-    
 	}
-  .resume-container {
-    max-width: 95vw;
-    padding: 2rem;
-  }
-
-  .download-section {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  .download-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: #3b82f6;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background-color 0.2s;
-    cursor: pointer;
-  }
-
-  .download-btn:hover {
-    background: #2563eb;
-  }
-
-  .download-icon {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-
-  .resume-embed {
-    width: 100%;
-    height: 80vh;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    oveflow: hidden;
-  }
-
-  .fallback-message {
-    text-align: center;
-    padding: 2rem;
-    color: #6b7280;
-  }
-
-  .fallback-link {
-    color: #3b82f6;
-    text-decoration: none;
-  }
-
-  .fallback-link:hover {
-    text-decoration: underline;
-  }
-
-  @media (max-width: 768px) {
-      .resume-container {
-          padding: 1rem;
-      }
-      
-      .resume-embed {
-          width: 100%;
-          height: 90vh;
-          border: 1px solid #e5e7eb;
-          border-radius: 0.5rem;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-          object-fit: contain;
-          oveflow: hidden;
-      }
-  }
 </style>
