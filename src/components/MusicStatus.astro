@@ -1,0 +1,140 @@
+---
+const BASE_URL = import.meta.env.BASE_URL;
+---
+
+<div class="nowPlayingCard">
+  <div id="songUrl" class="nowPlayingImage">
+    <a href="#">
+      <img id="albumArt" alt="Album" src="" />
+    </a>
+  </div>
+  
+  <div id="nowPlayingDetails">
+    <img id="icon" src="" title="Now Listening" />
+  </div>
+</div>
+
+<script define:vars={{ BASE_URL }}>
+  async function fetchNowPlaying() {
+    try {
+      const res = await fetch('/api/nowplaying');
+      const data = await res.json();
+      console.log(data);
+
+      document.getElementById('albumArt').src = data.currTrack.image;
+      document.getElementById('songUrl').href = data.currTrack.url;
+
+      const icon = document.getElementById('icon');
+      icon.src = data.currTrack.isPlaying
+        ? `${BASE_URL}/assets/soundbar.gif`
+        : `${BASE_URL}/assets/pause.png`;
+      icon.title = data.currTrack.isPlaying ? 'Now Listening' : 'Paused';
+
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  fetchNowPlaying();
+  setInterval(fetchNowPlaying, 5000);
+</script>
+
+<style>
+
+.nowPlayingCard {
+    flex-shrink: 0;
+    border-radius: 22px;
+    border: 2px solid #c561f6;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);
+    align-items: center;
+    width: 160px;
+    height: 56px;
+    display: flex;
+    justify-content: space-evenly;
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+
+    
+  .nowPlayingCard a {
+      color: #c561f6;
+      text-decoration: none;
+  }
+
+  .nowPlayingCard a:hover {
+      color: #c561f6;
+      text-decoration: underline;
+  }
+
+  .nowPlayingImage {
+    flex-shrink: 0;
+  }
+
+  .nowPlayingImage img {
+      border-radius: 8px;
+      border: 1px solid #c561f6;
+      box-shadow: 3px 3px 0 #c561f6(0, 0, 0, 0.3);
+      transition: all 0.5s ease;
+      width: 40px;
+      height: 40px;
+      margin: 8px;
+      flex-shrink: 0;
+      margin: 10px;
+      object-fit: cover;
+      display: block;
+  }
+  
+
+  .nowPlayingImage img:hover {
+      box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);
+      transform: translateX(-3px) translateY(-3px);
+      transition: all 0.5s ease;
+  }
+
+#nowPlayingDetails {
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#nowPlayingDetails img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+  .nowPlayingTitle, .playlistName {
+      flex-shrink: 0;
+      color: #000;
+      white-space: nowrap;
+      text-align: left;
+      font-size: 20px;
+      width: 100%;
+  }
+
+  .nowPlayingArtist, .playlistHeader {
+      text-align: left;
+      flex-shrink: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+  }
+
+  .nowPlayingTime {
+      text-align: left;
+  }
+
+  .nowPlayingState {
+      text-align: center;
+      width: 20%;
+      padding: 10px;
+  }
+
+  .nowPlayingState img{
+      filter: invert(100%);
+      width: 100%;
+  }
+</style>
