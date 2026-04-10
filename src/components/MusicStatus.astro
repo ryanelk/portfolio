@@ -1,11 +1,10 @@
 ---
-const BASE_URL = import.meta.env.BASE_URL;
 ---
 
 <div class="nowPlayingCard">
-  <div id="songUrl" class="nowPlayingImage">
-    <a href="#">
-      <img id="albumArt" alt="Album" src="" />
+  <div class="nowPlayingImage">
+    <a id="songUrl" href="#">
+      <img id="albumArt" alt="Album" src="" crossorigin="anonymous"/>
     </a>
   </div>
   
@@ -14,17 +13,35 @@ const BASE_URL = import.meta.env.BASE_URL;
   </div>
 </div>
 
-<script define:vars={{ BASE_URL }}>
+<script>
+  const BASE_URL = import.meta.env.BASE_URL;
+  import { getPrimaryColor } from '../pages/getDomColor';
+
+  let prevSong = "" as string;
+  let primaryColor = "" as string;
+
   async function fetchNowPlaying() {
     try {
       const res = await fetch('/api/nowplaying');
       const data = await res.json();
-      console.log(data);
+      const albumArt = data.currTrack.image;
+      const songUrl = data.currTrack.url;
+      
+      const songUrlId = document.getElementById('songUrl') as HTMLAnchorElement;
+      const icon = document.getElementById('icon') as HTMLImageElement;
 
-      document.getElementById('albumArt').src = data.currTrack.image;
-      document.getElementById('songUrl').href = data.currTrack.url;
+      songUrlId.href = songUrl;
 
-      const icon = document.getElementById('icon');
+      // In future, only change color if image has changed. Make a boolean/flag for this
+      if (prevSong !== songUrl) {
+          primaryColor = await loadImage(albumArt);
+          prevSong = songUrl;
+          const card = document.querySelector(".nowPlayingCard") as HTMLElement;
+          if (card) card.style.border = `2px solid ${primaryColor}`;
+
+      }
+      
+
       icon.src = data.currTrack.isPlaying
         ? `${BASE_URL}/assets/soundbar.gif`
         : `${BASE_URL}/assets/pause.png`;
@@ -34,12 +51,46 @@ const BASE_URL = import.meta.env.BASE_URL;
       console.error(err);
     }
   }
+  
+  const loadImage = (img_url: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const albumArt = document.getElementById('albumArt') as HTMLImageElement;
+      albumArt.crossOrigin = 'anonymous';
+      albumArt.src = img_url;
+
+      albumArt.onload = () => {
+        albumArt.onload = null;
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+        canvas.width = albumArt.width;
+        canvas.height = albumArt.height;
+        ctx.drawImage(albumArt, 0, 0);
+
+        // [R, G, B, A ... ]
+        const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const primaryColor = getPrimaryColor(data);
+
+        albumArt.style.border = `2px solid ${primaryColor}`;
+        // albumArt.style.col
+
+        resolve(primaryColor);
+      };
+
+      albumArt.onerror = () => reject(new Error(`Failed to load image: ${img_url}`));
+    });
+  };
+  
 
   fetchNowPlaying();
   setInterval(fetchNowPlaying, 5000);
 </script>
 
 <style>
+
+#icon {
+
+}
 
 .nowPlayingCard {
     flex-shrink: 0;
@@ -72,8 +123,8 @@ const BASE_URL = import.meta.env.BASE_URL;
 
   .nowPlayingImage img {
       border-radius: 8px;
-      border: 1px solid #c561f6;
-      box-shadow: 3px 3px 0 #c561f6(0, 0, 0, 0.3);
+      border: 2px solid #491265;
+      box-shadow: 3px 3px 0 #ffacac(0, 0, 0, 0.3);
       transition: all 0.5s ease;
       width: 40px;
       height: 40px;
