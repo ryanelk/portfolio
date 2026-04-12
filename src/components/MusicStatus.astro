@@ -1,21 +1,24 @@
 ---
+const BASE_URL = import.meta.env.BASE_URL;
 ---
 
-<div class="nowPlayingCard">
+<div class="nowPlayingCard" data-base-url={BASE_URL}>
   <div class="nowPlayingImage">
     <a id="songUrl" href="#">
       <img id="albumArt" alt="Album" src="" crossorigin="anonymous"/>
     </a>
   </div>
-  
+
   <div id="nowPlayingDetails">
     <img id="icon" src="" title="Now Listening" />
   </div>
 </div>
 
 <script>
-  const BASE_URL = import.meta.env.BASE_URL;
   import { getPrimaryColor } from '../pages/getDomColor';
+
+  const card = document.querySelector(".nowPlayingCard") as HTMLElement;
+  const BASE_URL = card.dataset.baseUrl || '';
 
   let prevSong = "" as string;
   let primaryColor = "" as string;
@@ -36,7 +39,6 @@
       if (prevSong !== songUrl) {
           primaryColor = await loadImage(albumArt);
           prevSong = songUrl;
-          const card = document.querySelector(".nowPlayingCard") as HTMLElement;
           if (card) card.style.border = `2px solid ${primaryColor}`;
 
       }
