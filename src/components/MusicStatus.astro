@@ -10,7 +10,13 @@ const BASE_URL = import.meta.env.BASE_URL;
   </div>
 
   <div id="nowPlayingDetails">
-    <img id="icon" src="" title="Now Listening" />
+    <svg id="soundwave" class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <rect class="bar bar1" x="2" y="11" width="2" height="2" rx="1"/>
+      <rect class="bar bar2" x="6" y="11" width="2" height="2" rx="1"/>
+      <rect class="bar bar3" x="10" y="11" width="2" height="2" rx="1"/>
+      <rect class="bar bar4" x="14" y="11" width="2" height="2" rx="1"/>
+      <rect class="bar bar5" x="18" y="11" width="2" height="2" rx="1"/>
+    </svg>
   </div>
 </div>
 
@@ -25,15 +31,46 @@ const BASE_URL = import.meta.env.BASE_URL;
 
   async function fetchNowPlaying() {
     try {
-      const res = await fetch('/api/nowplaying');
+      const res = await fetch(`${BASE_URL}/api/nowplaying`);
       const data = await res.json();
+
+      if (!data.currTrack) {
+        console.log('No track data available');
+        return;
+      }
+
       const albumArt = data.currTrack.image;
       const songUrl = data.currTrack.url;
-      
+      const isPlaying = data.currTrack.isPlaying;
+
       const songUrlId = document.getElementById('songUrl') as HTMLAnchorElement;
-      const icon = document.getElementById('icon') as HTMLImageElement;
+      const soundwave = document.getElementById('soundwave') as SVGElement;
 
       songUrlId.href = songUrl;
+
+      // Toggle animation and appearance based on playing state
+      const bars = soundwave.querySelectorAll('.bar');
+      if (isPlaying) {
+        soundwave.classList.add('playing');
+        // Restore bar heights for animation
+        (bars[0] as SVGRectElement).setAttribute('y', '8');
+        (bars[0] as SVGRectElement).setAttribute('height', '8');
+        (bars[1] as SVGRectElement).setAttribute('y', '4');
+        (bars[1] as SVGRectElement).setAttribute('height', '16');
+        (bars[2] as SVGRectElement).setAttribute('y', '6');
+        (bars[2] as SVGRectElement).setAttribute('height', '12');
+        (bars[3] as SVGRectElement).setAttribute('y', '2');
+        (bars[3] as SVGRectElement).setAttribute('height', '20');
+        (bars[4] as SVGRectElement).setAttribute('y', '7');
+        (bars[4] as SVGRectElement).setAttribute('height', '10');
+      } else {
+        soundwave.classList.remove('playing');
+        // Flatline all bars
+        bars.forEach(bar => {
+          (bar as SVGRectElement).setAttribute('y', '11');
+          (bar as SVGRectElement).setAttribute('height', '2');
+        });
+      }
 
       // In future, only change color if image has changed. Make a boolean/flag for this
       if (prevSong !== songUrl) {
@@ -41,13 +78,9 @@ const BASE_URL = import.meta.env.BASE_URL;
           prevSong = songUrl;
           if (card) card.style.border = `2px solid ${primaryColor}`;
 
+          // Update SVG colors
+          bars.forEach(bar => (bar as SVGElement).style.fill = primaryColor);
       }
-      
-
-      icon.src = data.currTrack.isPlaying
-        ? `${BASE_URL}/assets/soundbar.gif`
-        : `${BASE_URL}/assets/pause.png`;
-      icon.title = data.currTrack.isPlaying ? 'Now Listening' : 'Paused';
 
     } catch (err) {
       console.error(err);
@@ -90,8 +123,49 @@ const BASE_URL = import.meta.env.BASE_URL;
 
 <style>
 
-#icon {
+.icon {
+  width: 24px;
+  height: 24px;
+}
 
+#soundwave .bar {
+  fill: #c561f6;
+}
+
+/* When playing, animate the bars */
+#soundwave.playing .bar {
+  animation: soundwave 1s ease-in-out infinite;
+}
+
+#soundwave.playing .bar1 {
+  animation-delay: 0s;
+}
+
+#soundwave.playing .bar2 {
+  animation-delay: 0.1s;
+}
+
+#soundwave.playing .bar3 {
+  animation-delay: 0.2s;
+}
+
+#soundwave.playing .bar4 {
+  animation-delay: 0.3s;
+}
+
+#soundwave.playing .bar5 {
+  animation-delay: 0.4s;
+}
+
+@keyframes soundwave {
+  0%, 100% {
+    transform: scaleY(1);
+    transform-origin: center;
+  }
+  50% {
+    transform: scaleY(0.5);
+    transform-origin: center;
+  }
 }
 
 .nowPlayingCard {
@@ -126,22 +200,19 @@ const BASE_URL = import.meta.env.BASE_URL;
   .nowPlayingImage img {
       border-radius: 8px;
       border: 2px solid #491265;
-      box-shadow: 3px 3px 0 #ffacac(0, 0, 0, 0.3);
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
       transition: all 0.5s ease;
       width: 40px;
       height: 40px;
-      margin: 8px;
-      flex-shrink: 0;
       margin: 10px;
+      flex-shrink: 0;
       object-fit: cover;
       display: block;
   }
-  
+
 
   .nowPlayingImage img:hover {
-      box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);
-      transform: translateX(-3px) translateY(-3px);
-      transition: all 0.5s ease;
+      opacity: 0.8;
   }
 
 #nowPlayingDetails {
@@ -151,12 +222,6 @@ const BASE_URL = import.meta.env.BASE_URL;
     display: flex;
     flex-direction: column;
     height: 100%;
-}
-
-#nowPlayingDetails img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
 }
 
   .nowPlayingTitle, .playlistName {
