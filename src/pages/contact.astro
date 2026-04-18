@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<BaseLayout title="Contact | Reina El Khoury" description="Get in touch with Reina El Khoury">
+	<div class="stack gap-20">
+		<main class="wrapper stack gap-8">
+			<Hero
+        title=""
+				tagline="Want to reach out?"
+				align="start"
+			/>
+
+			<form class="contact-form" name="contact" method="POST">
+				<label>
+					<span>Name</span>
+					<input type="text" name="name" required />
+				</label>
+				<label>
+					<span>Email</span>
+					<input type="email" name="email" required />
+				</label>
+				<label>
+					<span>Subject</span>
+					<input type="text" name="subject" required />
+				</label>
+				<label>
+					<span>Message</span>
+					<textarea name="message" rows="6" required></textarea>
+				</label>
+				<button type="submit">Send Message</button>
+			</form>
+		</main>
+	</div>
+</BaseLayout>
+
+<style>
+	main {
+		align-items: center;
+		text-align: center;
+	}
+
+	.contact-form {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		width: 100%;
+		max-width: 40rem;
+	}
+
+	label {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		font-size: var(--text-sm);
+		color: var(--gray-300);
+		text-align: left;
+	}
+
+	input,
+	textarea {
+		font-family: var(--font-body);
+		font-size: var(--text-base);
+		color: var(--gray-0);
+		background: var(--gray-999);
+		border: 1px solid var(--gray-800);
+		border-radius: 0.5rem;
+		padding: 0.65rem 0.875rem;
+		transition: border-color var(--theme-transition);
+		resize: vertical;
+	}
+
+	input:focus,
+	textarea:focus {
+		outline: none;
+		border-color: var(--accent-regular);
+	}
+
+	button {
+		align-self: center;
+		font-family: var(--font-brand);
+		font-size: var(--text-base);
+		font-weight: 600;
+		color: var(--accent-text-over);
+		background: var(--accent-regular);
+		border: none;
+		border-radius: 999rem;
+		padding: 0.65rem 1.75rem;
+		cursor: pointer;
+		transition: background var(--theme-transition);
+	}
+
+	button:hover {
+		background: var(--accent-dark);
+	}
+</style>
