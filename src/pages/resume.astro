@@ -1,18 +1,19 @@
 ---
 import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import config from '../config/index';
 
-const resume = `${import.meta.env.BASE_URL}/assets/resume/ryanelkhoury_resume_2026.pdf`;
+const resume = `${import.meta.env.BASE_URL}/assets/resume/${config.resume.filename}`;
 ---
 
-<BaseLayout title="Resume" description="About Ryan El Khoury Lorem Ipsum">
+<BaseLayout title="Resume" description={`${config.name}'s Resume`}>
 	<div class="stack gap-20">
 		<main class="wrapper">
 			<Hero title="Resume" tagline="" />
 		</main>
 		<div class="wrapper resume-container">
 			<div class="download-section">
-				<a href={resume} download="ryanelkhoury_resume_2026.pdf" class="download-btn">
+				<a href={resume} download={config.resume.downloadName} class="download-btn">
 					<svg class="download-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
 					</svg>

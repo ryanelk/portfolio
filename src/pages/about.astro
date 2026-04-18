@@ -2,9 +2,10 @@
 import ContactCTA from '../components/ContactCTA.astro';
 import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import config from '../config/index';
 ---
 
-<BaseLayout title="About | Reina El Khoury" description="About Reina El Khoury Lorem Ipsum">
+<BaseLayout title={`About | ${config.name}`} description={`About ${config.name}`}>
 	<div class="stack gap-20">
 		<main class="wrapper about">
 			<Hero
@@ -22,18 +23,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			<section>
 				<h2 class="section-title">Background</h2>
 				<div class="content">
+					{config.about.background && <p>{config.about.background}</p>}
 				</div>
 			</section>
 			<section>
 				<h2 class="section-title">Education</h2>
 				<div class="content">
-					<p>Corporis voluptates tenetur laudantium.</p>
+					<p>{config.about.education}</p>
 				</div>
 			</section>
 			<section>
 				<h2 class="section-title">Skills</h2>
 				<div class="content">
-					<p>officia unde omnis</p>
+					<p>{config.about.skills}</p>
 				</div>
 			</section>
 		</main>

@@ -17,6 +17,7 @@ export const collections = {
 			gif_0: z.string().optional(),
 			gif_1: z.string().optional(),
 			gif_2: z.string().optional(),
+			owner: z.enum(['ryan', 'reina', 'both']).default('ryan'),
 		}),
 	}),
 };

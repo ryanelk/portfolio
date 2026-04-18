@@ -1,17 +1,9 @@
 ---
 import Icon from './Icon.astro';
-import { iconPaths } from './IconPaths';
+import config from '../config/index';
 
 const currentYear = new Date().getFullYear();
-
-/** Icon links to social media — edit these with links to your profiles! */
-const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[] = [
-	{ label: 'GitHub', href: 'https://github.com/me', icon: 'github-logo' },
-	{ label: 'YouTube', href: 'https://www.youtube.com/@me/', icon: 'youtube-logo' },
-	{ label: 'TikTok', href: 'https://www.tiktok.com/en', icon: 'tiktok-logo'},
-	{ label: 'Instagram', href: 'https://www.instagram.com/', icon: 'instagram-logo'},
-	{ label: 'LinkedIn', href: 'https://www.linkedin.com/', icon: 'linkedin-logo'},
-];
+const iconLinks = config.socials;
 ---
 
 		

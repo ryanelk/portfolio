@@ -3,12 +3,13 @@ import Icon from './Icon.astro';
 import type { iconPaths } from './IconPaths';
 import ThemeToggle from './ThemeToggle.astro';
 import MusicStatus from './MusicStatus.astro';
+import config from '../config/index';
 
 /** Main menu items */
 const textLinks: { label: string; href: string }[] = [
+	{ label: 'Home', href: `${import.meta.env.BASE_URL}/` },
 	{ label: 'Projects', href: `${import.meta.env.BASE_URL}/work/` },
 	{ label: 'Resume', href: `${import.meta.env.BASE_URL}/resume/` },
-	{ label: 'About', href: `${import.meta.env.BASE_URL}/about/` },
 	{ label: 'Contact', href: `${import.meta.env.BASE_URL}/contact/` },
 ];
 
@@ -49,7 +50,7 @@ const isCurrentPage = (href: string) => {
 		</ul>
 		<div class="menu-header">
 		<a href=`${import.meta.env.BASE_URL}/` class="site-title">
-			Reina El Khoury
+			<span data-cfg="name">{config.name}</span>
 		</a>
 		<menu-button>
 			<template>

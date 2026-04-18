@@ -21,7 +21,7 @@ const BASE_URL = import.meta.env.BASE_URL;
 </div>
 
 <script>
-  import { getPrimaryColor } from '../pages/getDomColor';
+  import { getPrimaryColor, getTopColors, hexToRgbTriplet } from '../pages/getDomColor';
 
   const card = document.querySelector(".nowPlayingCard") as HTMLElement;
   const BASE_URL = card.dataset.baseUrl || '';
@@ -105,9 +105,12 @@ const BASE_URL = import.meta.env.BASE_URL;
         // [R, G, B, A ... ]
         const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const primaryColor = getPrimaryColor(data);
+        const topColors = getTopColors(data, 3);
+        topColors.forEach((hex, i) => {
+          document.documentElement.style.setProperty(`--music-color-${i + 1}`, hexToRgbTriplet(hex));
+        });
 
         albumArt.style.border = `2px solid ${primaryColor}`;
-        // albumArt.style.col
 
         resolve(primaryColor);
       };

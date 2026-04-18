@@ -1,0 +1,175 @@
+import type { UserConfig } from './types';
+
+const ryan: UserConfig = {
+	id: 'ryan',
+	name: 'Ryan El Khoury',
+	hero: {
+		title: 'Hello, my name is Ryan El Khoury',
+		tagline: 'I build things for the web and beyond.',
+		portraitAlt: 'Ryan El Khoury smiling in a red plaid shirt and tortoise shell glasses',
+		roles: [
+			{ icon: 'code', label: 'Developer' },
+			{ icon: 'code', label: 'Developer' },
+			{ icon: 'code', label: 'Developer' },
+		],
+	},
+	skills: [
+		{
+			icon: 'terminal-window',
+			title: 'Full Stack',
+			description: 'From cloud infrastructure on AWS to consumer-facing web and mobile apps, I build end-to-end products on the MERN stack serving 10k+ users.',
+		},
+		{
+			icon: 'trophy',
+			title: 'Industry Leader',
+			description: 'I\'ve worn the product manager hat — running agile workflows across remote software and QA teams, shipping SaaS products that generate recurring revenue.',
+		},
+		{
+			icon: 'strategy',
+			title: 'Strategy-Minded',
+			description: 'I think in systems: localization pipelines, onboarding flows, API design, and AI integrations — built to scale and grounded in real user research.',
+		},
+	],
+	about: {
+		background: 'I\'m a product development engineer based in Winnetka, CA. I\'ve spent the past several years building web and mobile SaaS products at Link4 Corporation and SignalRGB — from MERN stack applications and AWS cloud architecture to localization infrastructure and AI chatbots. Outside of work I run SnoreSnax, an indie game development group that has shipped 8+ games in Godot.',
+		education: 'B.A. Computer Science, University of California, Berkeley (2015–2019). Also worked as a Programming Tutor at UC Berkeley, leading curriculum development in Java, Python, Matlab, and C/C++.',
+		skills: 'JS/TS, Python, Java, C/C++, C#, SQL, Lua — Svelte, Astro, React, React Native, Node.js, Express.js — AWS, MongoDB, Docker, Nginx, Cloudflare, Azure — Godot, Blender, Figma, Miro, Jira',
+	},
+	resume: {
+		filename: 'ryanelkhoury_resume_2026.pdf',
+		downloadName: 'ryanelkhoury_resume_2026.pdf',
+	},
+	contact: {
+		email: 'mailto:ryannellkhouryy@gmail.com',
+	},
+	socials: [
+		{ label: 'GitHub', href: 'https://github.com/ryanelk', icon: 'github-logo' },
+		{ label: 'YouTube', href: 'https://www.youtube.com/@me/', icon: 'youtube-logo' },
+		{ label: 'TikTok', href: 'https://www.tiktok.com/en', icon: 'tiktok-logo' },
+		{ label: 'Instagram', href: 'https://www.instagram.com/', icon: 'instagram-logo' },
+		{ label: 'LinkedIn', href: 'https://www.linkedin.com/', icon: 'linkedin-logo' },
+	],
+	projects: [
+		{
+			name: 'Drop Dial',
+			description: 'Control a rotating, music-powered bar in a low-saturation cityscape. Made in Unity for UC Berkeley\'s Game Design DeCal.',
+			img: 'assets/projects/drop-dial.png',
+			date: new Date(2018, 2, 1),
+			tags: ['Unity', 'Game Jam'],
+		},
+		{
+			name: 'Summit Shake!',
+			description: 'Shake climbers off your sides as a sentient mountain. Made in PICO-8 for The Dream Arcade Archive.',
+			img: 'assets/projects/summit-shake.png',
+			date: new Date(2020, 4, 1),
+			tags: ['PICO-8', 'Game Jam'],
+		},
+		{
+			name: '¡Esperé!',
+			description: 'Play as a street vendor serving up paletas on a hot, sunny day. Made in Unity for Hispanic Heritage Month Jam.',
+			img: 'assets/projects/espere.png',
+			date: new Date(2020, 9, 1),
+			tags: ['Unity', 'Game Jam'],
+		},
+		{
+			name: 'Egg on a Wire',
+			description: 'Keep the egg safe from sparks by manipulating telephone wires. Made in Godot for Mini Jam 99.',
+			img: 'assets/projects/egg-on-a-wire.png',
+			date: new Date(2022, 1, 1),
+			tags: ['Godot', 'Game Jam'],
+		},
+		{
+			name: 'Pen Pals',
+			description: 'Guide letters to their destination or demise in branching narrative experience. Made in Godot for Black and White Jam 8.',
+			img: 'assets/projects/pen-pals.png',
+			date: new Date(2022, 3, 1),
+			tags: ['Godot', 'Narrative', 'Game Jam'],
+		},
+		{
+			name: 'Eternal Sanctuary',
+			description: 'OST created for an imaginary game about runaways who seek refuge in an abandoned house. Made in Ableton for OST Composing Jam 4.',
+			img: 'assets/projects/eternal-sanctuary.png',
+			date: new Date(2022, 6, 1),
+			tags: ['Ableton', 'Music', 'Game Jam'],
+		},
+		{
+			name: 'Bottoms Up',
+			description: 'Collaborate to recreate recipes in asymmetrical platformer. Made in Godot for Multiplayer Game Jam.',
+			img: 'assets/projects/bottoms-up.png',
+			date: new Date(2022, 7, 1),
+			tags: ['Godot', 'Multiplayer', 'Game Jam'],
+		},
+		{
+			name: 'fisherman',
+			description: 'Play a twisted game of fetch to capture lost spirits. Made in Godot for AI and Games Jam.',
+			img: 'assets/projects/fisherman.png',
+			date: new Date(2022, 9, 1),
+			tags: ['Godot', 'Game Jam'],
+		},
+		{
+			name: 'Mural',
+			description: 'Rediscover a faded mural by repainting it. Made in Godot for Hispanic Heritage Month.',
+			img: 'assets/projects/mural.png',
+			date: new Date(2022, 9, 1),
+			tags: ['Godot', 'Game Jam'],
+		},
+		{
+			name: 'Wingit',
+			description: 'Alter bad pick-up lines in revolutionary dating app. Made in Godot for Indiepocalypse Issue 42.',
+			img: 'assets/projects/wingit.png',
+			date: new Date(2023, 4, 1),
+			tags: ['Godot', 'Game Jam'],
+		},
+		{
+			name: 'aguas',
+			description: 'Escape from a jar of aguas frescas. Made in Godot for Con Latinidad.',
+			img: 'assets/projects/aguas.png',
+			date: new Date(2023, 9, 1),
+			tags: ['Godot', 'Game Jam'],
+		},
+		{
+			name: 'bands',
+			description: 'Zine investigating different manifestations of growth in life. Made in Procreate for Zine Jam: Growth Edition.',
+			img: 'assets/projects/bands.png',
+			date: new Date(2024, 0, 1),
+			tags: ['Procreate', 'Zine', 'Game Jam'],
+		},
+		{
+			name: 'fishstax',
+			description: 'Stack fish with reactive abilities into iconic shapes. Made in Godot for Thinky Puzzle Jam 4.',
+			img: 'assets/projects/fishstax.png',
+			date: new Date(2024, 6, 1),
+			tags: ['Godot', 'Puzzle', 'Game Jam'],
+		},
+		{
+			name: 'lotería o llorar',
+			description: 'Rescue your beloved perrito in a deadly game of lotería. Made in Godot for Unidos Hispanic Heritage Month.',
+			img: 'assets/projects/loteria-o-llorar.png',
+			date: new Date(2024, 9, 1),
+			tags: ['Godot', 'Game Jam'],
+		},
+		{
+			name: 'sonidos',
+			description: 'Explore the lost culture of a remote island as a sound recording robot. Made in Godot for the LAGS Game Jam.',
+			img: 'assets/projects/sonidos.png',
+			date: new Date(2025, 3, 1),
+			tags: ['Godot', 'Game Jam'],
+		},
+		{
+			name: 'the fall collection',
+			description: 'Collect magical fabrics and make friends along the way. Made in Godot for the Unidos Game Jam.',
+			img: 'assets/projects/the-fall-collection.png',
+			date: new Date(2025, 9, 1),
+			tags: ['Godot', 'Game Jam'],
+		},
+		{
+			name: 'toro toro',
+			description: 'Dodge charging toros and power up to knock them out. Made in Godot for the LAGS Game Jam.',
+			img: 'assets/projects/toro-toro.png',
+			date: new Date(2026, 2, 1),
+			tags: ['Godot', 'Game Jam'],
+		},
+	],
+};
+
+export default ryan;

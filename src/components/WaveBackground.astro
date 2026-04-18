@@ -1,0 +1,189 @@
+---
+---
+
+<div class="wave-container" aria-hidden="true">
+  <svg class="wave wave-1" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C66,136 54,140 120,140 C186,140 174,136 240,80 C306,24 294,20 360,20 C426,20 414,24 480,80 C546,136 534,140 600,140 C666,140 654,136 720,80 C786,24 774,20 840,20 C906,20 894,24 960,80 C1026,136 1014,140 1080,140 C1146,140 1134,136 1200,80 C1266,24 1254,20 1320,20 C1386,20 1374,24 1440,80 L1440,160 L0,160 Z" />
+  </svg>
+  <svg class="wave wave-2" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C66,37 54,30 120,30 C186,30 174,37 240,80 C306,123 294,130 360,130 C426,130 414,123 480,80 C546,37 534,30 600,30 C666,30 654,37 720,80 C786,123 774,130 840,130 C906,130 894,123 960,80 C1026,37 1014,30 1080,30 C1146,30 1134,37 1200,80 C1266,123 1254,130 1320,130 C1386,130 1374,123 1440,80 L1440,160 L0,160 Z" />
+  </svg>
+  <svg class="wave wave-3" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C66,15 54,5 120,5 C186,5 174,15 240,80 C306,145 294,155 360,155 C426,155 414,145 480,80 C546,15 534,5 600,5 C666,5 654,15 720,80 C786,145 774,155 840,155 C906,155 894,145 960,80 C1026,15 1014,5 1080,5 C1146,5 1134,15 1200,80 C1266,145 1254,155 1320,155 C1386,155 1374,145 1440,80 L1440,160 L0,160 Z" />
+  </svg>
+  <svg class="wave wave-4" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C66,136 54,145 120,145 C186,145 174,136 240,80 C306,24 294,15 360,15 C426,15 414,24 480,80 C546,136 534,145 600,145 C666,145 654,136 720,80 C786,24 774,15 840,15 C906,15 894,24 960,80 C1026,136 1014,145 1080,145 C1146,145 1134,136 1200,80 C1266,24 1254,15 1320,15 C1386,15 1374,24 1440,80 L1440,160 L0,160 Z" />
+  </svg>
+  <svg class="wave wave-5" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C66,33 54,25 120,25 C186,25 174,33 240,80 C306,127 294,135 360,135 C426,135 414,127 480,80 C546,33 534,25 600,25 C666,25 654,33 720,80 C786,127 774,135 840,135 C906,135 894,127 960,80 C1026,33 1014,25 1080,25 C1146,25 1134,33 1200,80 C1266,127 1254,135 1320,135 C1386,135 1374,127 1440,80 L1440,160 L0,160 Z" />
+  </svg>
+  <svg class="wave wave-6" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C66,141 54,150 120,150 C186,150 174,141 240,80 C306,19 294,10 360,10 C426,10 414,19 480,80 C546,141 534,150 600,150 C666,150 654,141 720,80 C786,19 774,10 840,10 C906,10 894,19 960,80 C1026,141 1014,150 1080,150 C1146,150 1134,141 1200,80 C1266,19 1254,10 1320,10 C1386,10 1374,19 1440,80 L1440,160 L0,160 Z" />
+  </svg>
+  <svg class="wave wave-7" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C66,28 54,20 120,20 C186,20 174,28 240,80 C306,132 294,140 360,140 C426,140 414,132 480,80 C546,28 534,20 600,20 C666,20 654,28 720,80 C786,132 774,140 840,140 C906,140 894,132 960,80 C1026,28 1014,20 1080,20 C1146,20 1134,28 1200,80 C1266,132 1254,140 1320,140 C1386,140 1374,132 1440,80 L1440,160 L0,160 Z" />
+  </svg>
+</div>
+
+<script>
+  const WAVE_COLOR_INDICES = [1, 2, 3, 1, 2, 3, 1];
+  const PROXIMITY_PX = 110;
+  let waveScreenCenters: number[] = [];
+
+  function updateWaveCenters() {
+    const waves = document.querySelectorAll<HTMLElement>('.wave');
+    waveScreenCenters = Array.from(waves).map(el => {
+      const rect = el.getBoundingClientRect();
+      return rect.top + rect.height / 2;
+    });
+  }
+
+  function getWaveColor(waveIdx: number): string {
+    const triplet = getComputedStyle(document.documentElement)
+      .getPropertyValue(`--music-color-${WAVE_COLOR_INDICES[waveIdx]}`).trim() || '118, 17, 166';
+    return `rgba(${triplet}, 0.78)`;
+  }
+
+  function spawnSplash(x: number, y: number, waveIdx: number) {
+    const color = getWaveColor(waveIdx);
+    const COUNT = 9;
+    const container = document.createElement('div');
+    container.style.cssText = `position:fixed;left:${x}px;top:${y}px;pointer-events:none;z-index:2;`;
+    document.body.appendChild(container);
+
+    for (let i = 0; i < COUNT; i++) {
+      const angle = (i / COUNT) * 360;
+      const dist = 28 + Math.random() * 24;
+      const size = 6 + Math.random() * 6;
+      const radians = (angle * Math.PI) / 180;
+      const dx = Math.cos(radians) * dist;
+      const dy = Math.sin(radians) * dist;
+      const shape = i % 2 === 0
+        ? 'polygon(50% 0%, 100% 100%, 0% 100%)'
+        : 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
+      const particle = document.createElement('div');
+      particle.style.cssText = `position:absolute;width:${size}px;height:${size}px;background:${color};clip-path:${shape};left:${-size/2}px;top:${-size/2}px;transform-origin:center;`;
+      container.appendChild(particle);
+      particle.animate(
+        [
+          { transform: `translate(0,0) rotate(0deg) scale(1)`, opacity: 0.9 },
+          { transform: `translate(${dx}px,${dy}px) rotate(${angle * 1.5}deg) scale(0)`, opacity: 0 },
+        ],
+        { duration: 480 + Math.random() * 120, easing: 'ease-out', fill: 'forwards' }
+      );
+    }
+    setTimeout(() => container.remove(), 650);
+  }
+
+  let lastNearIdx = -1;
+  document.addEventListener('mousemove', (e) => {
+    const my = e.clientY;
+    let nearestIdx = -1;
+    let minDist = Infinity;
+    for (let i = 0; i < waveScreenCenters.length; i++) {
+      const d = Math.abs(my - waveScreenCenters[i]);
+      if (d < minDist) { minDist = d; nearestIdx = i; }
+    }
+    const isNear = minDist < PROXIMITY_PX;
+    if (!isNear && lastNearIdx !== -1) {
+      spawnSplash(e.clientX, e.clientY, lastNearIdx);
+      lastNearIdx = -1;
+    } else if (isNear) {
+      lastNearIdx = nearestIdx;
+    }
+  });
+
+  updateWaveCenters();
+  window.addEventListener('resize', updateWaveCenters);
+</script>
+
+<style>
+  .wave-container {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .wave {
+    position: absolute;
+    /*
+      width: 200%, left: -50% → center of element aligns with center of viewport.
+      This ensures the diagonal sweeps evenly across both sides at all angles.
+    */
+    width: 200%;
+    left: -50%;
+    height: 330px;
+    transform: rotate(-22deg);
+    transform-origin: center center;
+  }
+
+  .wave path {
+    transition: fill 1.5s ease-in-out;
+  }
+
+  /*
+    At -22deg, a wave's left-viewport-edge top is at (top + ~278px).
+    To cover y=0 (top-left corner), wave-1 must have top ≤ -278px ≈ -31vh.
+    Spacing every 20vh fills the viewport to ~90vh with 7 bands.
+  */
+  .wave-1 { top: -35vh; }
+  .wave-2 { top: -15vh; }
+  .wave-3 { top:   5vh; }
+  .wave-4 { top:  25vh; }
+  .wave-5 { top:  45vh; }
+  .wave-6 { top:  65vh; }
+  .wave-7 { top:  85vh; }
+
+  /* Fill colors */
+  .wave-1 path { fill: rgba(var(--music-color-1, 118, 17, 166), 0.18); }
+  .wave-2 path { fill: rgba(var(--music-color-2, 118, 17, 166), 0.14); }
+  .wave-3 path { fill: rgba(var(--music-color-3, 118, 17, 166), 0.22); }
+  .wave-4 path { fill: rgba(var(--music-color-1, 118, 17, 166), 0.17); }
+  .wave-5 path { fill: rgba(var(--music-color-2, 118, 17, 166), 0.20); }
+  .wave-6 path { fill: rgba(var(--music-color-3, 118, 17, 166), 0.15); }
+  .wave-7 path { fill: rgba(var(--music-color-1, 118, 17, 166), 0.19); }
+
+  /* Pure Y drift with staggered delays for rolling ebb */
+  @keyframes drift-1 {
+    0%, 100% { transform: rotate(-22deg) translateY(0px); }
+    50%       { transform: rotate(-22deg) translateY(30px); }
+  }
+  @keyframes drift-2 {
+    0%, 100% { transform: rotate(-22deg) translateY(20px); }
+    50%       { transform: rotate(-22deg) translateY(-26px); }
+  }
+  @keyframes drift-3 {
+    0%, 100% { transform: rotate(-22deg) translateY(-10px); }
+    50%       { transform: rotate(-22deg) translateY(34px); }
+  }
+  @keyframes drift-4 {
+    0%, 100% { transform: rotate(-22deg) translateY(14px); }
+    50%       { transform: rotate(-22deg) translateY(-30px); }
+  }
+  @keyframes drift-5 {
+    0%, 100% { transform: rotate(-22deg) translateY(-18px); }
+    50%       { transform: rotate(-22deg) translateY(28px); }
+  }
+  @keyframes drift-6 {
+    0%, 100% { transform: rotate(-22deg) translateY(22px); }
+    50%       { transform: rotate(-22deg) translateY(-20px); }
+  }
+  @keyframes drift-7 {
+    0%, 100% { transform: rotate(-22deg) translateY(6px); }
+    50%       { transform: rotate(-22deg) translateY(32px); }
+  }
+
+  .wave-1 { animation: drift-1 18s ease-in-out infinite; animation-delay:  0s; }
+  .wave-2 { animation: drift-2 21s ease-in-out infinite; animation-delay: -3s; }
+  .wave-3 { animation: drift-3 16s ease-in-out infinite; animation-delay: -6s; }
+  .wave-4 { animation: drift-4 24s ease-in-out infinite; animation-delay: -9s; }
+  .wave-5 { animation: drift-5 19s ease-in-out infinite; animation-delay: -4s; }
+  .wave-6 { animation: drift-6 22s ease-in-out infinite; animation-delay: -7s; }
+  .wave-7 { animation: drift-7 17s ease-in-out infinite; animation-delay: -2s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wave { animation: none; }
+  }
+</style>

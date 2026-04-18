@@ -1,62 +1,60 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { ParsedProject } from '../utils/parseProject';
 
 interface Props {
-	project: CollectionEntry<'work'>;
+	project: ParsedProject;
 }
 
 const { data, id } = Astro.props.project;
+
+const formattedDate = data.publishDate.getTime() > 0
+	? data.publishDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+	: '';
 ---
+
 <li class="project-tile" data-img={`${import.meta.env.BASE_URL}/${data.img}`}>
-  <h5>February 2024</h5>
-    <a class="card" target="_blank" href={`work/${id}`} rel="noopener"><img decoding="async" src={`${import.meta.env.BASE_URL}/${data.img}`} alt={data.img_alt || ''}></a>
-  <h4>Pixels</h4>
-  <p>Experience a visual spectacle where photographs transform into pixelated particles, visualizing the deconstruction and reassembly of memories.</p>
-  <ul class="techtool plist">
-    <li>JavaScript</li>
-    <li>WebGL</li>
-    <li>Shader</li>
-  </ul>
+	<h5>{formattedDate}</h5>
+	{data.img
+		? <a class="card" href={`work/${id}`} rel="noopener"><img decoding="async" src={`${import.meta.env.BASE_URL}/${data.img}`} alt={data.img_alt || ''} /></a>
+		: <div class="card card--no-image"><span class="title">{data.title}</span></div>
+	}
+	<h4>{data.title}</h4>
+	<p>{data.description}</p>
 </li>
 
 <script>
-  import { getPrimaryColor } from '../pages/getDomColor';
+	import { getPrimaryColor } from '../pages/getDomColor';
 
-  function loadImageColor(src: string): Promise<string | null> {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.src = src;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return resolve(null);
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        ctx.drawImage(img, 0, 0);
-        const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        resolve(getPrimaryColor(data));
-      };
-      img.onerror = () => resolve(null);
-    });
-  }
+	function loadImageColor(src: string): Promise<string | null> {
+		return new Promise((resolve) => {
+			const img = new Image();
+			img.crossOrigin = 'anonymous';
+			img.src = src;
+			img.onload = () => {
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d');
+				if (!ctx) return resolve(null);
+				canvas.width = img.naturalWidth;
+				canvas.height = img.naturalHeight;
+				ctx.drawImage(img, 0, 0);
+				const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+				resolve(getPrimaryColor(data));
+			};
+			img.onerror = () => resolve(null);
+		});
+	}
 
-  document.querySelectorAll<HTMLElement>('.project-tile').forEach(async (tile) => {
-    const src = tile.dataset.img;
-    if (!src) return;
-    const color = await loadImageColor(src);
-    if (!color) return;
-    const title = tile.querySelector<HTMLElement>('h4');
-    if (title) title.style.color = color;
-    const date = tile.querySelector<HTMLElement>('h5');
-    if (date) date.style.color = color;
-  });
+	document.querySelectorAll<HTMLElement>('.project-tile').forEach(async (tile) => {
+		const src = tile.dataset.img;
+		if (!src) return;
+		const color = await loadImageColor(src);
+		if (!color) return;
+		const title = tile.querySelector<HTMLElement>('h4');
+		if (title) title.style.color = color;
+		const date = tile.querySelector<HTMLElement>('h5');
+		if (date) date.style.color = color;
+	});
 </script>
-
-<!-- <a class="card" href={`work/${id}`}>
-	<span class="title">{data.title}</span>
-	<img src={`${import.meta.env.BASE_URL}/${data.img}`} alt={data.img_alt || ''} loading="lazy" decoding="async" />
-</a> -->
 
 <style>
 	.project-tile {
@@ -73,7 +71,6 @@ const { data, id } = Astro.props.project;
 			0 0 10px rgba(255, 255, 255, 0.3);
 	}
 
-
 	.card {
 		display: block;
 		border-radius: 0.75rem;
@@ -88,10 +85,16 @@ const { data, id } = Astro.props.project;
 		transform: translateY(-6px) scale(1.02);
 	}
 
+	.card--no-image {
+		background: var(--gradient-subtle);
+		border: 1px solid var(--gray-800);
+		aspect-ratio: 16 / 9;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 	.title {
-		grid-area: 1 / 1 / 2 / 2;
-		z-index: 1;
-		margin: 0.5rem;
 		padding: 0.5rem 1rem;
 		background: var(--gray-999);
 		color: var(--gray-200);
@@ -110,36 +113,27 @@ const { data, id } = Astro.props.project;
 	}
 
 	@media (min-width: 50em) {
-    .cmproject {
-      margin: 50px 0 0;
-      line-height: 16px;
-      font-size: 11px;
-    }
+		.techtool.plist {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 4px;
+			padding-top: 8px;
+			list-style: none;
+			padding-left: 0;
+		}
 
-    .techtool.plist {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px !important;
-      padding-top: 8px;
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .techtool.plist li {
-      display: inline-block;
-      width: auto !important;
-      padding: 0 8px !important;
-      border-radius: 10px !important;
-      font-size: 10px !important;
-      line-height: 20px !important;
-      color: #fff !important;
-      background: #d9d9d9 !important;
-      border: none !important;
-      font-weight: 700 !important;
-      list-style: none;
-    }
-
+		.techtool.plist li {
+			display: inline-block;
+			width: auto;
+			padding: 0 8px;
+			border-radius: 10px;
+			font-size: 10px;
+			line-height: 20px;
+			color: #fff;
+			background: #d9d9d9;
+			border: none;
+			font-weight: 700;
+			list-style: none;
+		}
 	}
-
-
 </style>

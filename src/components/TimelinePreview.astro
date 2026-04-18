@@ -1,0 +1,156 @@
+---
+import type { ParsedProject } from '../utils/parseProject';
+
+interface Props {
+	project: ParsedProject;
+}
+
+const { data, id } = Astro.props.project;
+const date = data.publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+---
+
+<li class="timeline-item">
+	<div class="timeline-dot"></div>
+	<a class="timeline-card" href={`${import.meta.env.BASE_URL}/work/${id}`}>
+		{data.img && (
+			<div class="img-wrapper">
+				<img src={`${import.meta.env.BASE_URL}/${data.img}`} alt={data.img_alt || ''} decoding="async" />
+			</div>
+		)}
+		<div class="card-body">
+			<span class="date">{date}</span>
+			<h3 class="title">{data.title}</h3>
+			<p class="description">{data.description}</p>
+			{data.tags.length > 0 && (
+				<ul class="tags">
+					{data.tags.map((tag) => <li class="tag">{tag}</li>)}
+				</ul>
+			)}
+		</div>
+	</a>
+</li>
+
+
+<style>
+	.timeline-item {
+		display: flex;
+		width: 100%;
+		margin-bottom: 4rem;
+		position: relative;
+		justify-content: flex-start;
+		padding-right: calc(50% + 2.5rem);
+	}
+
+	.timeline-item:nth-child(even) {
+		justify-content: flex-end;
+		padding-right: 0;
+		padding-left: calc(50% + 2.5rem);
+	}
+
+	.timeline-dot {
+		position: absolute;
+		left: 50%;
+		top: 1.5rem;
+		width: 0.875rem;
+		height: 0.875rem;
+		background: var(--accent-regular);
+		border-radius: 50%;
+		transform: translateX(-50%);
+		z-index: 1;
+		box-shadow:
+			0 0 0 3px var(--gray-999),
+			0 0 0 5px var(--accent-regular);
+	}
+
+	.timeline-card {
+		display: block;
+		width: 100%;
+		border: 1px solid var(--gray-800);
+		border-radius: 1rem;
+		overflow: hidden;
+		text-decoration: none;
+		color: inherit;
+		background: var(--gray-999_40);
+		box-shadow: var(--shadow-sm);
+		transition:
+			box-shadow 0.3s ease,
+			transform 0.3s ease;
+	}
+
+	.timeline-card:hover {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-lg);
+	}
+
+	.img-wrapper {
+		width: 100%;
+		overflow: hidden;
+		border-radius: 1rem 1rem 0 0;
+	}
+
+	.img-wrapper img {
+		display: block;
+		width: 100%;
+		height: auto;
+		transition: transform 0.3s ease;
+	}
+
+	.timeline-card:hover .img-wrapper img {
+		transform: scale(1.03);
+	}
+
+	.card-body {
+		padding: 1.25rem;
+	}
+
+	.date {
+		font-size: var(--text-sm);
+		color: var(--accent-regular);
+		font-weight: 600;
+	}
+
+	.title {
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+		margin: 0.25rem 0 0.5rem;
+	}
+
+	.description {
+		font-size: var(--text-sm);
+		color: var(--gray-300);
+		line-height: 1.6;
+		margin-bottom: 0.75rem;
+	}
+
+	.tags {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.375rem;
+	}
+
+	.tag {
+		font-size: 0.65rem;
+		font-weight: 700;
+		padding: 0.2rem 0.6rem;
+		border-radius: 999rem;
+		background: var(--accent-regular);
+		color: var(--accent-text-over);
+	}
+
+	@media (max-width: 50em) {
+		.timeline-item,
+		.timeline-item:nth-child(even) {
+			justify-content: flex-start;
+			padding-left: 3rem;
+			padding-right: 0;
+		}
+
+		.timeline-dot {
+			left: 1rem;
+			transform: none;
+		}
+	}
+</style>

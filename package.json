@@ -4,7 +4,11 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "dev:ryan": "PORTFOLIO_USER=ryan astro dev",
+    "dev:reina": "PORTFOLIO_USER=reina astro dev",
     "build": "astro build",
+    "build:ryan": "PORTFOLIO_USER=ryan astro build",
+    "build:reina": "PORTFOLIO_USER=reina astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

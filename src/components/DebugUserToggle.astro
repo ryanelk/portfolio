@@ -1,0 +1,129 @@
+---
+import ryan from '../config/ryan';
+import reina from '../config/reina';
+import config from '../config/index';
+
+const configs = { ryan, reina };
+const initialUser = config.id;
+---
+
+<div id="debug-user-toggle">
+	<span class="debug-label">DEBUG</span>
+	<div class="toggle-buttons">
+		<button
+			data-toggle-user="ryan"
+			class:list={['toggle-btn', { active: initialUser === 'ryan' }]}
+		>
+			Ryan
+		</button>
+		<button
+			data-toggle-user="reina"
+			class:list={['toggle-btn', { active: initialUser === 'reina' }]}
+		>
+			Reina
+		</button>
+	</div>
+</div>
+
+<script define:vars={{ configs, initialUser }}>
+	function getUser() {
+		return localStorage.getItem('debug-portfolio-user') || initialUser;
+	}
+
+	function applyConfig(userId) {
+		const cfg = configs[userId];
+
+		// Update text content on elements tagged with data-cfg="dot.path"
+		document.querySelectorAll('[data-cfg]').forEach((el) => {
+			const value = el.dataset.cfg.split('.').reduce((obj, k) => obj?.[k], cfg);
+			if (typeof value === 'string') el.textContent = value;
+		});
+
+		// Show/hide elements tagged for a specific user
+		document.querySelectorAll('[data-cfg-user]').forEach((el) => {
+			el.style.display = el.dataset.cfgUser === userId ? '' : 'none';
+		});
+
+		// Show/hide project tiles based on their owner
+		document.querySelectorAll('[data-owner]').forEach((el) => {
+			const owner = el.dataset.owner;
+			el.style.display = owner === userId || owner === 'both' ? '' : 'none';
+		});
+
+		// Sync toggle button active states
+		document.querySelectorAll('[data-toggle-user]').forEach((btn) => {
+			btn.classList.toggle('active', btn.dataset.toggleUser === userId);
+		});
+	}
+
+	function init() {
+		applyConfig(getUser());
+
+		document.querySelectorAll('[data-toggle-user]').forEach((btn) => {
+			btn.addEventListener('click', () => {
+				localStorage.setItem('debug-portfolio-user', btn.dataset.toggleUser);
+				applyConfig(btn.dataset.toggleUser);
+			});
+		});
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', init);
+	} else {
+		init();
+	}
+</script>
+
+<style>
+	#debug-user-toggle {
+		position: fixed;
+		bottom: 1.5rem;
+		right: 1.5rem;
+		z-index: 99999;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.25rem;
+		background: var(--gray-999);
+		border: 1px solid var(--gray-700);
+		border-radius: 0.75rem;
+		padding: 0.5rem 0.75rem;
+		box-shadow: var(--shadow-lg);
+		font-family: var(--font-brand);
+	}
+
+	.debug-label {
+		font-size: 0.6rem;
+		letter-spacing: 0.1em;
+		color: var(--accent-regular);
+		font-weight: 700;
+	}
+
+	.toggle-buttons {
+		display: flex;
+		gap: 0.2rem;
+		background: var(--gray-800);
+		border-radius: 999rem;
+		padding: 0.2rem;
+	}
+
+	.toggle-btn {
+		border: none;
+		background: transparent;
+		color: var(--gray-300);
+		border-radius: 999rem;
+		padding: 0.25rem 0.75rem;
+		cursor: pointer;
+		font-family: var(--font-brand);
+		font-size: var(--text-sm);
+		font-weight: 500;
+		transition:
+			background var(--theme-transition),
+			color var(--theme-transition);
+	}
+
+	.toggle-btn.active {
+		background: var(--accent-regular);
+		color: var(--accent-text-over);
+	}
+</style>

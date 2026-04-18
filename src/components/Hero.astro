@@ -3,15 +3,17 @@ interface Props {
 	title: string;
 	tagline?: string;
 	align?: 'start' | 'center';
+	titleCfgKey?: string;
+	taglineCfgKey?: string;
 }
 
-const { align = 'center', tagline, title } = Astro.props;
+const { align = 'center', tagline, title, titleCfgKey, taglineCfgKey } = Astro.props;
 ---
 
 <div class:list={['hero stack gap-4', align]}>
 	<div class="stack gap-2">
-		<h1 class="title">{title}</h1>
-		{tagline && <p class="tagline">{tagline}</p>}
+		<h1 class="title" data-cfg={titleCfgKey}>{title}</h1>
+		{tagline && <p class="tagline" data-cfg={taglineCfgKey}>{tagline}</p>}
 	</div>
 	<slot />
 </div>

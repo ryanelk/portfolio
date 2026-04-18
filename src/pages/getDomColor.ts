@@ -1,9 +1,59 @@
 
+type ImageDataArray = Uint8ClampedArray | number[];
+
 interface ColorVector {
   r: number,
   g: number,
   b: number
 }
+
+export const hexToRgbTriplet = (hex: string): string => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `${r}, ${g}, ${b}`;
+};
+
+export const getTopColors = (data: ImageDataArray, k: number): string[] => {
+  const imageData = convertToVector(data);
+  const maxIterations = 10;
+
+  let centroids: ColorVector[] = [];
+  for (let i = 0; i < k; i++) {
+    centroids.push({ ...imageData[Math.floor(Math.random() * imageData.length)] });
+  }
+
+  const clusterSizes = new Array(k).fill(0);
+
+  let iterations = 0;
+  while (iterations < maxIterations) {
+    const clusters: ColorVector[][] = new Array(k).fill(null).map(() => []);
+    for (const pixel of imageData) {
+      let minDist = Infinity, closest = 0;
+      for (let i = 0; i < k; i++) {
+        const d = euclideanDistance(pixel, centroids[i]);
+        if (d < minDist) { minDist = d; closest = i; }
+      }
+      clusters[closest].push(pixel);
+    }
+    for (let i = 0; i < k; i++) {
+      clusterSizes[i] = clusters[i].length;
+      if (clusters[i].length > 0) {
+        const sum = clusters[i].reduce(
+          (acc, c) => { acc.r += c.r; acc.g += c.g; acc.b += c.b; return acc; },
+          { r: 0, g: 0, b: 0 }
+        );
+        centroids[i] = { r: sum.r / clusters[i].length, g: sum.g / clusters[i].length, b: sum.b / clusters[i].length };
+      }
+    }
+    iterations++;
+  }
+
+  return centroids
+    .map((c, i) => ({ hex: rgbToHex(c.r, c.g, c.b), size: clusterSizes[i] }))
+    .sort((a, b) => b.size - a.size)
+    .map(x => x.hex);
+};
 
 export const getPrimaryColor = (data: ImageDataArray): string => {
 

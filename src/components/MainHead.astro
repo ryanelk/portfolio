@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import config from '../config/index';
 
 interface Props {
 	title?: string | undefined;
@@ -7,8 +8,8 @@ interface Props {
 }
 
 const {
-	title = 'Ryan El Khoury: Personal Site',
-	description = 'The personal site of Ryan El Khoury',
+	title = `${config.name}: Personal Site`,
+	description = `The personal site of ${config.name}`,
 } = Astro.props;
 ---
 

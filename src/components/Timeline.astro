@@ -1,0 +1,39 @@
+---
+---
+
+<ul class="timeline">
+	<slot />
+</ul>
+
+<style>
+	.timeline {
+		position: relative;
+		list-style: none;
+		padding: 2rem 0;
+		margin: 0;
+	}
+
+	.timeline::before {
+		content: '';
+		position: absolute;
+		left: 50%;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: linear-gradient(
+			to bottom,
+			transparent,
+			var(--accent-regular) 4%,
+			var(--accent-regular) 96%,
+			transparent
+		);
+		transform: translateX(-50%);
+	}
+
+	@media (max-width: 50em) {
+		.timeline::before {
+			left: 1rem;
+			transform: none;
+		}
+	}
+</style>
