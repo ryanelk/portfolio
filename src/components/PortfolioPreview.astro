@@ -7,31 +7,85 @@ interface Props {
 
 const { data, id } = Astro.props.project;
 ---
+<li class="project-tile" data-img={`${import.meta.env.BASE_URL}/${data.img}`}>
+  <h5>February 2024</h5>
+    <a class="card" target="_blank" href={`work/${id}`} rel="noopener"><img decoding="async" src={`${import.meta.env.BASE_URL}/${data.img}`} alt={data.img_alt || ''}></a>
+  <h4>Pixels</h4>
+  <p>Experience a visual spectacle where photographs transform into pixelated particles, visualizing the deconstruction and reassembly of memories.</p>
+  <ul class="techtool plist">
+    <li>JavaScript</li>
+    <li>WebGL</li>
+    <li>Shader</li>
+  </ul>
+</li>
 
-<a class="card" href={`work/${id}`}>
+<script>
+  import { getPrimaryColor } from '../pages/getDomColor';
+
+  function loadImageColor(src: string): Promise<string | null> {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = src;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return resolve(null);
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        ctx.drawImage(img, 0, 0);
+        const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        resolve(getPrimaryColor(data));
+      };
+      img.onerror = () => resolve(null);
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('.project-tile').forEach(async (tile) => {
+    const src = tile.dataset.img;
+    if (!src) return;
+    const color = await loadImageColor(src);
+    if (!color) return;
+    const title = tile.querySelector<HTMLElement>('h4');
+    if (title) title.style.color = color;
+    const date = tile.querySelector<HTMLElement>('h5');
+    if (date) date.style.color = color;
+  });
+</script>
+
+<!-- <a class="card" href={`work/${id}`}>
 	<span class="title">{data.title}</span>
 	<img src={`${import.meta.env.BASE_URL}/${data.img}`} alt={data.img_alt || ''} loading="lazy" decoding="async" />
-</a>
+</a> -->
 
 <style>
+	.project-tile {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.project-tile h4,
+	.project-tile h5 {
+		text-shadow:
+			0 0 10px rgba(0, 0, 0, 0.3),
+			0 0 10px rgba(255, 255, 255, 0.3);
+	}
+
+
 	.card {
-		display: grid;
-		grid-template: auto 1fr / auto 1fr;
-		height: 11rem;
-		background: var(--gradient-subtle);
-		border: 1px solid var(--gray-800);
+		display: block;
 		border-radius: 0.75rem;
 		overflow: hidden;
 		box-shadow: var(--shadow-sm);
 		text-decoration: none;
-		font-family: var(--font-brand);
-		font-size: var(--text-lg);
-		font-weight: 500;
-		transition: box-shadow var(--theme-transition);
+		transition: box-shadow 0.3s ease, transform 0.3s ease;
 	}
 
 	.card:hover {
-		box-shadow: var(--shadow-md);
+		box-shadow: var(--shadow-lg);
+		transform: translateY(-6px) scale(1.02);
 	}
 
 	.title {
@@ -45,20 +99,47 @@ const { data, id } = Astro.props.project;
 	}
 
 	img {
-		grid-area: 1 / 1 / 3 / 3;
+		display: block;
 		width: 100%;
-		height: 100%;
-		object-fit: cover;
+		height: auto;
+		transition: transform 0.3s ease;
+	}
+
+	.card:hover img {
+		transform: scale(1.05);
 	}
 
 	@media (min-width: 50em) {
-		.card {
-			height: 22rem;
-			border-radius: 1.5rem;
-		}
+    .cmproject {
+      margin: 50px 0 0;
+      line-height: 16px;
+      font-size: 11px;
+    }
 
-		.title {
-			border-radius: 0.9375rem;
-		}
+    .techtool.plist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px !important;
+      padding-top: 8px;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .techtool.plist li {
+      display: inline-block;
+      width: auto !important;
+      padding: 0 8px !important;
+      border-radius: 10px !important;
+      font-size: 10px !important;
+      line-height: 20px !important;
+      color: #fff !important;
+      background: #d9d9d9 !important;
+      border: none !important;
+      font-weight: 700 !important;
+      list-style: none;
+    }
+
 	}
+
+
 </style>

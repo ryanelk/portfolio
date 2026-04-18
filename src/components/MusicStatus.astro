@@ -132,9 +132,9 @@ const BASE_URL = import.meta.env.BASE_URL;
   fill: #c561f6;
 }
 
-/* When playing, animate the bars */
+/* When playing, animate the bars. Edit the first field to change speed of animation*/
 #soundwave.playing .bar {
-  animation: soundwave 1s ease-in-out infinite;
+  animation: soundwave 0.60s ease-in-out infinite;
 }
 
 #soundwave.playing .bar1 {
@@ -172,7 +172,7 @@ const BASE_URL = import.meta.env.BASE_URL;
     flex-shrink: 0;
     border-radius: 22px;
     border: 2px solid #c561f6;
-    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-md); /* to match the other header component */
     align-items: center;
     width: 160px;
     height: 56px;
@@ -200,7 +200,7 @@ const BASE_URL = import.meta.env.BASE_URL;
   .nowPlayingImage img {
       border-radius: 8px;
       border: 2px solid #491265;
-      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+      box-shadow: var(--shadow-md);
       transition: all 0.5s ease;
       width: 40px;
       height: 40px;
