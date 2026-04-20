@@ -11,11 +11,13 @@ import TimelinePreview from '../components/TimelinePreview.astro';
 import Skills from '../components/Skills.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import config from '../config/index';
+import ryan from '../config/ryan';
+import reina from '../config/reina';
 import { parseProject } from '../utils/parseProject';
 
-const projects = config.projects
-	.map(parseProject)
-	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const sort = (arr: any[]) => arr.map(parseProject).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const ryanProjects = sort(ryan.projects);
+const reinaProjects = sort(reina.projects);
 ---
 
 <BaseLayout>
@@ -37,10 +39,11 @@ const projects = config.projects
 				</Hero>
 
 				<img
+					data-cfg-src="portrait"
 					alt={config.hero.portraitAlt}
 					width="480"
 					height="620"
-					src="assets/portrait.png"
+					src={config.portrait}
 				/>
 			</header>
 
@@ -56,14 +59,14 @@ const projects = config.projects
 				<div class="gallery">
 					<div data-cfg-user="ryan" style={config.id !== 'ryan' ? 'display:none' : ''}>
 						<Timeline>
-							{projects.map((project) => (
+							{ryanProjects.map((project) => (
 								<TimelinePreview project={project} />
 							))}
 						</Timeline>
 					</div>
 					<div data-cfg-user="reina" style={config.id !== 'reina' ? 'display:none' : ''}>
 						<Grid variant="offset">
-							{projects.map((project) => (
+							{reinaProjects.map((project) => (
 								<PortfolioPreview project={project} />
 							))}
 						</Grid>
@@ -118,11 +121,11 @@ const projects = config.projects
 	}
 
 	.hero img {
-		aspect-ratio: 5 / 4;
-		object-fit: cover;
-		object-position: top;
+		width: 100%;
+		height: auto;
 		border-radius: 1.5rem;
 		box-shadow: var(--shadow-md);
+		border: 3px solid var(--accent-regular);
 	}
 
 	@media (min-width: 50em) {
@@ -140,9 +143,7 @@ const projects = config.projects
 		}
 
 		.hero img {
-			aspect-ratio: 3 / 4;
 			border-radius: 4.5rem;
-			object-fit: cover;
 		}
 	}
 

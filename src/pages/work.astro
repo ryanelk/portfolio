@@ -5,11 +5,14 @@ import Hero from '../components/Hero.astro';
 import PortfolioPreview from '../components/PortfolioPreview.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import config from '../config/index';
+import ryan from '../config/ryan';
+import reina from '../config/reina';
 import { parseProject } from '../utils/parseProject';
 
-const projects = config.projects
-	.map(parseProject)
-	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const allProjects = {
+	ryan: ryan.projects.map(parseProject).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()),
+	reina: reina.projects.map(parseProject).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()),
+};
 ---
 
 <BaseLayout
@@ -23,13 +26,15 @@ const projects = config.projects
 				tagline="See my most recent projects below to get an idea of my past experience."
 				align="start"
 			/>
-			<Grid variant="offset">
-				{
-					projects.map((project) => (
-						<PortfolioPreview project={project} />
-					))
-				}
-			</Grid>
+			{Object.entries(allProjects).map(([userId, projects]) => (
+				<div data-cfg-user={userId} style={config.id !== userId ? 'display:none' : ''}>
+					<Grid variant="offset">
+						{projects.map((project) => (
+							<PortfolioPreview project={project} />
+						))}
+					</Grid>
+				</div>
+			))}
 		</main>
 		<ContactCTA />
 	</div>

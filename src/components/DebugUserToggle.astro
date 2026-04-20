@@ -4,6 +4,7 @@ import reina from '../config/reina';
 import config from '../config/index';
 
 const configs = { ryan, reina };
+const themes = { ryan: ryan.theme, reina: reina.theme };
 const initialUser = config.id;
 ---
 
@@ -25,7 +26,7 @@ const initialUser = config.id;
 	</div>
 </div>
 
-<script define:vars={{ configs, initialUser }}>
+<script define:vars={{ configs, themes, initialUser, BASE_URL: import.meta.env.BASE_URL }}>
 	function getUser() {
 		return localStorage.getItem('debug-portfolio-user') || initialUser;
 	}
@@ -38,6 +39,25 @@ const initialUser = config.id;
 			const value = el.dataset.cfg.split('.').reduce((obj, k) => obj?.[k], cfg);
 			if (typeof value === 'string') el.textContent = value;
 		});
+
+		// Update src on elements tagged with data-cfg-src="key"
+		document.querySelectorAll('[data-cfg-src]').forEach((el) => {
+			const value = el.dataset.cfgSrc.split('.').reduce((obj, k) => obj?.[k], cfg);
+			if (typeof value === 'string') el.src = value;
+		});
+
+		// Update href on elements tagged with data-cfg-href="key"
+		document.querySelectorAll('[data-cfg-href]').forEach((el) => {
+			const value = el.dataset.cfgHref.split('.').reduce((obj, k) => obj?.[k], cfg);
+			if (typeof value === 'string') el.href = value;
+		});
+
+		// Update data-src on elements tagged with data-cfg-data-src="key"
+		document.querySelectorAll('[data-cfg-data-src]').forEach((el) => {
+			const value = el.dataset.cfgDataSrc.split('.').reduce((obj, k) => obj?.[k], cfg);
+			if (typeof value === 'string') el.dataset.src = value;
+		});
+
 
 		// Show/hide elements tagged for a specific user
 		document.querySelectorAll('[data-cfg-user]').forEach((el) => {
@@ -54,6 +74,18 @@ const initialUser = config.id;
 		document.querySelectorAll('[data-toggle-user]').forEach((btn) => {
 			btn.classList.toggle('active', btn.dataset.toggleUser === userId);
 		});
+
+		// Swap CSS theme variables by replacing the injected theme style tag
+		const theme = themes[userId];
+		const toVars = (map) => Object.entries(map).map(([k, v]) => `--${k}: ${v};`).join(' ');
+		const css = `:root { ${toVars(theme.light)} } :root.theme-dark { ${toVars(theme.dark)} }`;
+		let tag = document.getElementById('debug-theme-vars');
+		if (!tag) {
+			tag = document.createElement('style');
+			tag.id = 'debug-theme-vars';
+			document.head.appendChild(tag);
+		}
+		tag.textContent = css;
 	}
 
 	function init() {
