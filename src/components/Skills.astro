@@ -1,17 +1,21 @@
 ---
 import Icon from './Icon.astro';
+import ryan from '../config/ryan';
+import reina from '../config/reina';
 import config from '../config/index';
 
-const skills = config.skills;
+const allConfigs = { ryan, reina };
 ---
 
 <section class="box skills">
-	{skills.map((skill) => (
-		<div class="stack gap-2 lg:gap-4">
-			<Icon icon={skill.icon} color="var(--accent-regular)" size="2.5rem" gradient />
-			<h2>{skill.title}</h2>
-			<p>{skill.description}</p>
-		</div>
+	{Object.entries(allConfigs).map(([userId, cfg]) => (
+		cfg.skills.map((skill) => (
+			<div class="stack gap-2 lg:gap-4" data-cfg-user={userId} style={config.id !== userId ? 'display:none' : ''}>
+				<Icon icon={skill.icon} color="var(--accent-regular)" size="2.5rem" gradient />
+				<h2>{skill.title}</h2>
+				<p>{skill.description}</p>
+			</div>
+		))
 	))}
 </section>
 

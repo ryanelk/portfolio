@@ -1,5 +1,11 @@
 import type { iconPaths } from '../components/IconPaths';
 
+export interface UserTheme {
+	fallbackColor: string;
+	light: Record<string, string>;
+	dark: Record<string, string>;
+}
+
 export interface SocialLink {
 	label: string;
 	href: string;
@@ -27,6 +33,7 @@ export interface Project {
 
 export interface UserConfig {
 	id: 'ryan' | 'reina';
+	theme: UserTheme;
 	name: string;
 	hero: {
 		title: string;
@@ -49,4 +56,5 @@ export interface UserConfig {
 	};
 	socials: SocialLink[];
 	projects: Project[];
+  portrait: string;
 }

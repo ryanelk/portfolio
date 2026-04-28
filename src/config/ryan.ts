@@ -2,6 +2,51 @@ import type { UserConfig } from './types';
 
 const ryan: UserConfig = {
 	id: 'ryan',
+	theme: {
+		fallbackColor: '118, 17, 166',
+		light: {
+			'gray-0': '#090b11',
+			'gray-50': '#141925',
+			'gray-100': '#283044',
+			'gray-200': '#3d4663',
+			'gray-300': '#505d84',
+			'gray-400': '#6474a2',
+			'gray-500': '#8490b5',
+			'gray-600': '#a3acc8',
+			'gray-700': '#c3cadb',
+			'gray-800': '#e3e6ee',
+			'gray-900': '#f3f4f7',
+			'gray-999-basis': '0, 0%, 100%',
+			'gray-999': '#ffffff',
+			'accent-light': '#c561f6',
+			'accent-regular': '#7611a6',
+			'accent-dark': '#1c0056',
+			'accent-overlay': 'hsla(280, 89%, 67%, 0.33)',
+			'accent-subtle-overlay': 'hsla(280, 89%, 67%, 0.33)',
+			'gradient-stop-1': '#c561f6',
+		},
+		dark: {
+			'gray-0': '#ffffff',
+			'gray-50': '#f3f4f7',
+			'gray-100': '#e3e6ee',
+			'gray-200': '#c3cadb',
+			'gray-300': '#a3acc8',
+			'gray-400': '#8490b5',
+			'gray-500': '#6474a2',
+			'gray-600': '#505d84',
+			'gray-700': '#3d4663',
+			'gray-800': '#283044',
+			'gray-900': '#141925',
+			'gray-999-basis': '225, 31%, 5%',
+			'gray-999': '#090b11',
+			'accent-light': '#1c0056',
+			'accent-regular': '#7611a6',
+			'accent-dark': '#c561f6',
+			'accent-overlay': 'hsla(280, 89%, 67%, 0.33)',
+			'accent-subtle-overlay': 'hsla(281, 81%, 36%, 0.33)',
+			'gradient-stop-1': '#4c11c6',
+		},
+	},
 	name: 'Ryan El Khoury',
 	hero: {
 		title: 'Hello, my name is Ryan El Khoury',
@@ -170,6 +215,7 @@ const ryan: UserConfig = {
 			tags: ['Godot', 'Game Jam'],
 		},
 	],
+  portrait: 'assets/portrait.png'
 };
 
 export default ryan;

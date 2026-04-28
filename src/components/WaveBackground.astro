@@ -1,4 +1,9 @@
 ---
+interface Props {
+  fallbackColor?: string;
+}
+const { fallbackColor: propFallback } = Astro.props;
+
 // ─── Wave Background Config ────────────────────────────────────────────────
 const config = {
   // Diagonal tilt in degrees (negative = lower-left to upper-right).
@@ -21,8 +26,8 @@ const config = {
   opacityHigh: 0.22,
   opacityLow:  0.15,
 
-  // Fallback RGB color when no Last.fm track is detected (accent purple).
-  fallbackColor: '118, 17, 166',
+  // Fallback RGB color when no Last.fm track is detected.
+  fallbackColor: propFallback ?? '118, 17, 166',
 
   // Max vertical drift distance in px for each wave's idle animation.
   // Higher = more movement. Recommended: 15–45.
