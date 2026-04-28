@@ -33,11 +33,6 @@ const config = {
   // Higher = more movement. Recommended: 15–45.
   driftAmount: 30,
 
-  // Splash particle count when mouse exits a wave vicinity.
-  splashCount: 9,
-
-  // Radius (px) around a wave's screen center that counts as "near".
-  proximityPx: 110,
 };
 // ───────────────────────────────────────────────────────────────────────────
 
@@ -111,75 +106,6 @@ const drifts: [number, number][] = [
   }`).join('')}
 `}></style>
 
-<script define:vars={{ PROXIMITY_PX: config.proximityPx, SPLASH_COUNT: config.splashCount, FALLBACK_COLOR: config.fallbackColor }}>
-  const WAVE_COLOR_INDICES = [1, 2, 3, 1, 2, 3, 1];
-  let waveScreenCenters = [];
-
-  function updateWaveCenters() {
-    const waves = document.querySelectorAll('.wave');
-    waveScreenCenters = Array.from(waves).map(el => {
-      const rect = el.getBoundingClientRect();
-      return rect.top + rect.height / 2;
-    });
-  }
-
-  function getWaveColor(waveIdx) {
-    const triplet = getComputedStyle(document.documentElement)
-      .getPropertyValue(`--music-color-${WAVE_COLOR_INDICES[waveIdx]}`).trim() || FALLBACK_COLOR;
-    return `rgba(${triplet}, 0.78)`;
-  }
-
-  function spawnSplash(x, y, waveIdx) {
-    const color = getWaveColor(waveIdx);
-    const container = document.createElement('div');
-    container.style.cssText = `position:fixed;left:${x}px;top:${y}px;pointer-events:none;z-index:2;`;
-    document.body.appendChild(container);
-
-    for (let i = 0; i < SPLASH_COUNT; i++) {
-      const angle = (i / SPLASH_COUNT) * 360;
-      const dist = 28 + Math.random() * 24;
-      const size = 6 + Math.random() * 6;
-      const radians = (angle * Math.PI) / 180;
-      const dx = Math.cos(radians) * dist;
-      const dy = Math.sin(radians) * dist;
-      const shape = i % 2 === 0
-        ? 'polygon(50% 0%, 100% 100%, 0% 100%)'
-        : 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
-      const particle = document.createElement('div');
-      particle.style.cssText = `position:absolute;width:${size}px;height:${size}px;background:${color};clip-path:${shape};left:${-size/2}px;top:${-size/2}px;transform-origin:center;`;
-      container.appendChild(particle);
-      particle.animate(
-        [
-          { transform: `translate(0,0) rotate(0deg) scale(1)`, opacity: 0.9 },
-          { transform: `translate(${dx}px,${dy}px) rotate(${angle * 1.5}deg) scale(0)`, opacity: 0 },
-        ],
-        { duration: 480 + Math.random() * 120, easing: 'ease-out', fill: 'forwards' }
-      );
-    }
-    setTimeout(() => container.remove(), 650);
-  }
-
-  let lastNearIdx = -1;
-  document.addEventListener('mousemove', (e) => {
-    const my = e.clientY;
-    let nearestIdx = -1;
-    let minDist = Infinity;
-    for (let i = 0; i < waveScreenCenters.length; i++) {
-      const d = Math.abs(my - waveScreenCenters[i]);
-      if (d < minDist) { minDist = d; nearestIdx = i; }
-    }
-    const isNear = minDist < PROXIMITY_PX;
-    if (!isNear && lastNearIdx !== -1) {
-      spawnSplash(e.clientX, e.clientY, lastNearIdx);
-      lastNearIdx = -1;
-    } else if (isNear) {
-      lastNearIdx = nearestIdx;
-    }
-  });
-
-  updateWaveCenters();
-  window.addEventListener('resize', updateWaveCenters);
-</script>
 
 <style>
   .wave-container {
