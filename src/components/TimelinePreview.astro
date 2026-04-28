@@ -11,10 +11,10 @@ const date = data.publishDate.toLocaleDateString('en-US', { month: 'short', year
 
 <li class="timeline-item">
 	<div class="timeline-dot"></div>
-	<a class="timeline-card" href={`${import.meta.env.BASE_URL}/work/${id}`}>
+	<a class="timeline-card" href={`${import.meta.env.BASE_URL}work/${id}`}>
 		{data.img && (
 			<div class="img-wrapper">
-				<img src={`${import.meta.env.BASE_URL}/${data.img}`} alt={data.img_alt || ''} decoding="async" />
+				<img src={`${import.meta.env.BASE_URL}${data.img}`} alt={data.img_alt || ''} decoding="async" />
 			</div>
 		)}
 		<div class="card-body">

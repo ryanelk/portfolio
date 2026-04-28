@@ -5,17 +5,17 @@ import MusicStatus from './MusicStatus.astro';
 import config from '../config/index';
 
 const textLinks: { label: string; href: string }[] = [
-	{ label: 'Home',     href: `${import.meta.env.BASE_URL}/` },
-	{ label: 'Projects', href: `${import.meta.env.BASE_URL}/work/` },
-	{ label: 'Resume',   href: `${import.meta.env.BASE_URL}/resume/` },
-	{ label: 'Contact',  href: `${import.meta.env.BASE_URL}/contact/` },
+	{ label: 'Home',     href: `${import.meta.env.BASE_URL}` },
+	{ label: 'Projects', href: `${import.meta.env.BASE_URL}work/` },
+	{ label: 'Resume',   href: `${import.meta.env.BASE_URL}resume/` },
+	{ label: 'Contact',  href: `${import.meta.env.BASE_URL}contact/` },
 ];
 
 const isCurrentPage = (href: string) => {
 	let pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
 	if (pathname.at(0) !== '/') pathname = '/' + pathname;
 	if (pathname.at(-1) !== '/') pathname += '/';
-	return pathname === href || (href !== `${import.meta.env.BASE_URL}/` && pathname.startsWith(href));
+	return pathname === href || (href !== `${import.meta.env.BASE_URL}` && pathname.startsWith(href));
 };
 ---
 
@@ -46,7 +46,7 @@ const isCurrentPage = (href: string) => {
 				</button>
 			</template>
 		</menu-button>
-		<a href={`${import.meta.env.BASE_URL}/`} class="site-title-mobile">REK</a>
+		<a href={`${import.meta.env.BASE_URL}`} class="site-title-mobile">REK</a>
 	</div>
 
 	<!--
@@ -66,7 +66,7 @@ const isCurrentPage = (href: string) => {
 				</li>
 			))}
 		</ul>
-		<a href={`${import.meta.env.BASE_URL}/`} class="site-title-desktop" data-cfg="name">
+		<a href={`${import.meta.env.BASE_URL}`} class="site-title-desktop" data-cfg="name">
 			{config.name}
 		</a>
 		<div class="nav-end">

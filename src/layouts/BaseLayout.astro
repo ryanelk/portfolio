@@ -28,8 +28,7 @@ const themeStyle = `
 <html lang="en">
 	<head>
 		<MainHead title={title} description={description} />
-		<base href="{import.meta.env.BASE_URL}" />
-		<Fragment set:html={`<style>${themeStyle}</style>`} />
+<Fragment set:html={`<style>${themeStyle}</style>`} />
 	</head>
 	<body>
 		<WaveBackground fallbackColor={config.theme.fallbackColor} />
