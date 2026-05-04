@@ -5,6 +5,7 @@ const ryan: UserConfig = {
 	theme: {
 		fallbackColor: '118, 17, 166',
 		light: {
+			// Light mode keeps the original palette
 			'gray-0': '#090b11',
 			'gray-50': '#141925',
 			'gray-100': '#283044',
@@ -26,21 +27,22 @@ const ryan: UserConfig = {
 			'gradient-stop-1': '#c561f6',
 		},
 		dark: {
-			'gray-0': '#ffffff',
-			'gray-50': '#f3f4f7',
-			'gray-100': '#e3e6ee',
-			'gray-200': '#c3cadb',
-			'gray-300': '#a3acc8',
-			'gray-400': '#8490b5',
-			'gray-500': '#6474a2',
-			'gray-600': '#505d84',
-			'gray-700': '#3d4663',
-			'gray-800': '#283044',
-			'gray-900': '#141925',
-			'gray-999-basis': '225, 31%, 5%',
-			'gray-999': '#090b11',
-			'accent-light': '#1c0056',
-			'accent-regular': '#7611a6',
+			// Dark mode updated to match REK v4 palette
+			'gray-0': '#f2f3f8',
+			'gray-50': '#eef0f8',
+			'gray-100': '#dce0ee',
+			'gray-200': '#c8ccde',
+			'gray-300': '#8a8fa8',
+			'gray-400': '#6a6f88',
+			'gray-500': '#525770',
+			'gray-600': '#3e4258',
+			'gray-700': '#2e3148',
+			'gray-800': '#1e2132',
+			'gray-900': '#13152a',
+			'gray-999-basis': '233, 33%, 11%',
+			'gray-999': '#131525',
+			'accent-light': '#c561f6',
+			'accent-regular': '#5b0e92',
 			'accent-dark': '#c561f6',
 			'accent-overlay': 'hsla(280, 89%, 67%, 0.33)',
 			'accent-subtle-overlay': 'hsla(281, 81%, 36%, 0.33)',
@@ -49,32 +51,14 @@ const ryan: UserConfig = {
 	},
 	name: 'Ryan El Khoury',
 	hero: {
-		title: 'Hello, my name is Ryan El Khoury',
-		tagline: 'I build things for the web and beyond.',
-		portraitAlt: 'Ryan El Khoury smiling in a red plaid shirt and tortoise shell glasses',
-		roles: [
-			{ icon: 'code', label: 'Developer' },
-			{ icon: 'code', label: 'Developer' },
-			{ icon: 'code', label: 'Developer' },
-		],
+		// Title is no longer used — Hero.astro renders "Development with intention." directly.
+		// Tagline is passed as the subtitle line.
+		title: 'Development with intention.',
+		tagline: 'full-stack engineer / indie game developer',
+		portraitAlt: '',
+		roles: [],
 	},
-	skills: [
-		{
-			icon: 'terminal-window',
-			title: 'Full Stack',
-			description: 'From cloud infrastructure on AWS to consumer-facing web and mobile apps, I build end-to-end products on the MERN stack serving 10k+ users.',
-		},
-		{
-			icon: 'trophy',
-			title: 'Industry Leader',
-			description: 'I\'ve worn the product manager hat — running agile workflows across remote software and QA teams, shipping SaaS products that generate recurring revenue.',
-		},
-		{
-			icon: 'strategy',
-			title: 'Strategy-Minded',
-			description: 'I think in systems: localization pipelines, onboarding flows, API design, and AI integrations — built to scale and grounded in real user research.',
-		},
-	],
+	skills: [],
 	about: {
 		background: 'I\'m a product development engineer based in Winnetka, CA. I\'ve spent the past several years building web and mobile SaaS products at Link4 Corporation and SignalRGB — from MERN stack applications and AWS cloud architecture to localization infrastructure and AI chatbots. Outside of work I run SnoreSnax, an indie game development group that has shipped 8+ games in Godot.',
 		education: 'B.A. Computer Science, University of California, Berkeley (2015–2019). Also worked as a Programming Tutor at UC Berkeley, leading curriculum development in Java, Python, Matlab, and C/C++.',
@@ -88,11 +72,11 @@ const ryan: UserConfig = {
 		email: 'mailto:ryannellkhouryy@gmail.com',
 	},
 	socials: [
-		{ label: 'GitHub', href: 'https://github.com/ryanelk', icon: 'github-logo' },
-		{ label: 'YouTube', href: 'https://www.youtube.com/@me/', icon: 'youtube-logo' },
-		{ label: 'TikTok', href: 'https://www.tiktok.com/en', icon: 'tiktok-logo' },
-		{ label: 'Instagram', href: 'https://www.instagram.com/', icon: 'instagram-logo' },
-		{ label: 'LinkedIn', href: 'https://www.linkedin.com/', icon: 'linkedin-logo' },
+		{ label: 'GitHub',    href: 'https://github.com/ryanelk',          icon: 'github-logo' },
+		{ label: 'YouTube',   href: 'https://www.youtube.com/@me/',         icon: 'youtube-logo' },
+		{ label: 'TikTok',    href: 'https://www.tiktok.com/en',            icon: 'tiktok-logo' },
+		{ label: 'Instagram', href: 'https://www.instagram.com/',           icon: 'instagram-logo' },
+		{ label: 'LinkedIn',  href: 'https://www.linkedin.com/',            icon: 'linkedin-logo' },
 	],
 	projects: [
 		{
@@ -215,7 +199,7 @@ const ryan: UserConfig = {
 			tags: ['Godot', 'Game Jam'],
 		},
 	],
-  portrait: 'assets/portrait.png'
+	portrait: 'assets/portrait.png',
 };
 
 export default ryan;

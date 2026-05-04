@@ -3,13 +3,15 @@ import type { ParsedProject } from '../utils/parseProject';
 
 interface Props {
 	project: ParsedProject;
+	index: number;
 }
 
+const { index } = Astro.props;
 const { data, id } = Astro.props.project;
 const date = data.publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 ---
 
-<li class="timeline-item">
+<li class:list={['timeline-item', index % 2 === 1 ? 'timeline-item--right' : 'timeline-item--left']}>
 	<div class="timeline-dot"></div>
 	<a class="timeline-card" href={`${import.meta.env.BASE_URL}work/${id}`}>
 		{data.img && (
@@ -31,22 +33,43 @@ const date = data.publishDate.toLocaleDateString('en-US', { month: 'short', year
 </li>
 
 
+<script>
+	import { getPrimaryColor } from '../pages/getDomColor';
+
+	function colorDotFromImage(item: Element) {
+		const img = item.querySelector('.img-wrapper img') as HTMLImageElement | null;
+		const dot = item.querySelector('.timeline-dot') as HTMLElement | null;
+		if (!img || !dot) return;
+
+		const apply = () => {
+			try {
+				const maxDim = 80;
+				const scale = Math.min(maxDim / img.naturalWidth, maxDim / img.naturalHeight, 1);
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d')!;
+				canvas.width  = Math.max(1, Math.floor(img.naturalWidth  * scale));
+				canvas.height = Math.max(1, Math.floor(img.naturalHeight * scale));
+				ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+				const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+				const color = getPrimaryColor(data);
+				dot.style.background = color;
+				dot.style.boxShadow = `0 0 0 3px var(--gray-999), 0 0 0 5px ${color}`;
+			} catch {
+				// leave default accent color on canvas error
+			}
+		};
+
+		if (img.complete && img.naturalWidth > 0) {
+			apply();
+		} else {
+			img.addEventListener('load', apply, { once: true });
+		}
+	}
+
+	document.querySelectorAll('.timeline-item').forEach(colorDotFromImage);
+</script>
+
 <style>
-	.timeline-item {
-		display: flex;
-		width: 100%;
-		margin-bottom: 4rem;
-		position: relative;
-		justify-content: flex-start;
-		padding-right: calc(50% + 2.5rem);
-	}
-
-	.timeline-item:nth-child(even) {
-		justify-content: flex-end;
-		padding-right: 0;
-		padding-left: calc(50% + 2.5rem);
-	}
-
 	.timeline-dot {
 		position: absolute;
 		left: 50%;
@@ -141,13 +164,6 @@ const date = data.publishDate.toLocaleDateString('en-US', { month: 'short', year
 	}
 
 	@media (max-width: 50em) {
-		.timeline-item,
-		.timeline-item:nth-child(even) {
-			justify-content: flex-start;
-			padding-left: 3rem;
-			padding-right: 0;
-		}
-
 		.timeline-dot {
 			left: 1rem;
 			transform: none;

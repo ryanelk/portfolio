@@ -1,56 +1,24 @@
 ---
 interface Props {
-	title: string;
 	tagline?: string;
-	align?: 'start' | 'center';
 	titleCfgKey?: string;
 	taglineCfgKey?: string;
 }
-
-const { align = 'center', tagline, title, titleCfgKey, taglineCfgKey } = Astro.props;
+const { tagline, titleCfgKey, taglineCfgKey } = Astro.props;
 ---
 
-<div class:list={['hero stack gap-4', align]}>
-	<div class="stack gap-2">
-		<h1 class="title" data-cfg={titleCfgKey}>{title}</h1>
-		{tagline && <p class="tagline" data-cfg={taglineCfgKey}>{tagline}</p>}
+<section class="rek-hero">
+	<!-- Large faint REK watermark -->
+	<span class="rek-hero-watermark" aria-hidden="true">REK</span>
+
+	<div class="rek-hero-content">
+		<h1 class="rek-hero-heading" data-cfg={titleCfgKey}>
+			Development<br />with intention.
+		</h1>
+		{tagline && (
+			<p class="rek-hero-sub" data-cfg={taglineCfgKey}>{tagline}</p>
+		)}
+		<slot />
 	</div>
-	<slot />
-</div>
 
-<style>
-	.hero {
-		font-size: var(--text-lg);
-		text-align: center;
-	}
-
-	.title,
-	.tagline {
-		max-width: 37ch;
-		margin-inline: auto;
-	}
-
-	.title {
-		font-size: var(--text-3xl);
-		color: var(--gray-0);
-	}
-
-	@media (min-width: 50em) {
-		.hero {
-			font-size: var(--text-xl);
-		}
-
-		.start {
-			text-align: start;
-		}
-
-		.start .title,
-		.start .tagline {
-			margin-inline: unset;
-		}
-
-		.title {
-			font-size: var(--text-5xl);
-		}
-	}
-</style>
+</section>

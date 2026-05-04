@@ -1,7 +1,6 @@
 ---
 import ContactCTA from '../components/ContactCTA.astro';
 import Grid from '../components/Grid.astro';
-import Hero from '../components/Hero.astro';
 import PortfolioPreview from '../components/PortfolioPreview.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import config from '../config/index';
@@ -21,11 +20,6 @@ const allProjects = {
 >
 	<div class="stack gap-20">
 		<main class="wrapper stack gap-8">
-			<Hero
-				title="My Work"
-				tagline="See my most recent projects below to get an idea of my past experience."
-				align="start"
-			/>
 			{Object.entries(allProjects).map(([userId, projects]) => (
 				<div data-cfg-user={userId} style={config.id !== userId ? 'display:none' : ''}>
 					<Grid variant="offset">

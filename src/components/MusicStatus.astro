@@ -2,260 +2,133 @@
 const BASE_URL = import.meta.env.BASE_URL;
 ---
 
-<div class="nowPlayingCard" data-base-url={BASE_URL}>
-  <div class="nowPlayingImage">
-    <a id="songUrl" href="#">
-      <img id="albumArt" alt="Album" src="" crossorigin="anonymous"/>
-    </a>
-  </div>
+<!-- Compact music widget: soundwave button → expands down to show album art -->
+<div class="music-widget-wrap" data-base-url={BASE_URL} id="musicWidget">
+	<button class="music-trigger-btn" id="musicTrigger" aria-label="Now playing" aria-expanded="false">
+		<svg class="soundwave" id="musicSoundwave" viewBox="0 0 23 16" width="23" height="16" xmlns="http://www.w3.org/2000/svg">
+			<rect class="sw-bar" x="0"  y="8" width="3" height="8"  rx="1.5"/>
+			<rect class="sw-bar" x="5"  y="3" width="3" height="13" rx="1.5"/>
+			<rect class="sw-bar" x="10" y="6" width="3" height="10" rx="1.5"/>
+			<rect class="sw-bar" x="15" y="0" width="3" height="16" rx="1.5"/>
+			<rect class="sw-bar" x="20" y="7" width="3" height="9"  rx="1.5"/>
+		</svg>
+	</button>
 
-  <div id="nowPlayingDetails">
-    <svg id="soundwave" class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <rect class="bar bar1" x="2" y="11" width="2" height="2" rx="1"/>
-      <rect class="bar bar2" x="6" y="11" width="2" height="2" rx="1"/>
-      <rect class="bar bar3" x="10" y="11" width="2" height="2" rx="1"/>
-      <rect class="bar bar4" x="14" y="11" width="2" height="2" rx="1"/>
-      <rect class="bar bar5" x="18" y="11" width="2" height="2" rx="1"/>
-    </svg>
-  </div>
+	<div class="music-expand" id="musicExpand">
+		<div class="music-expand-inner">
+			<div class="music-art" id="musicArt">
+				<div class="music-art-placeholder" id="musicArtPlaceholder">
+					<svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+						<circle cx="16" cy="16" r="12" stroke="rgba(var(--music-color-1),1)" stroke-opacity="0.35" stroke-width="1"/>
+						<circle cx="16" cy="16" r="4" fill="rgba(var(--music-color-1),1)" fill-opacity="0.4"/>
+					</svg>
+				</div>
+				<a id="musicSongUrl" href="#" style="display:none">
+					<img id="musicAlbumArt" alt="Album art" crossorigin="anonymous"
+						style="width:100%;height:100%;object-fit:cover;display:block;" />
+				</a>
+			</div>
+			<p class="music-now-label">now listening</p>
+			<p class="music-track-title" id="musicTitle">—</p>
+			<p class="music-track-artist" id="musicArtist">—</p>
+		</div>
+	</div>
 </div>
 
 <script>
-  import { getPrimaryColor, getTopColors, hexToRgbTriplet } from '../pages/getDomColor';
+	import { getPrimaryColor, getTopColors, hexToRgbTriplet } from '../pages/getDomColor';
 
-  const card = document.querySelector(".nowPlayingCard") as HTMLElement;
-  const BASE_URL = card.dataset.baseUrl || '';
+	const widget   = document.getElementById('musicWidget') as HTMLElement;
+	const trigger  = document.getElementById('musicTrigger') as HTMLButtonElement;
+	const expand   = document.getElementById('musicExpand') as HTMLElement;
+	const soundwave = document.getElementById('musicSoundwave') as HTMLElement;
+	const songUrl  = document.getElementById('musicSongUrl') as HTMLAnchorElement;
+	const albumArt = document.getElementById('musicAlbumArt') as HTMLImageElement;
+	const artPlaceholder = document.getElementById('musicArtPlaceholder') as HTMLElement;
+	const artWrap  = document.getElementById('musicArt') as HTMLElement;
+	const titleEl  = document.getElementById('musicTitle') as HTMLElement;
+	const artistEl = document.getElementById('musicArtist') as HTMLElement;
+	const BASE_URL = widget.dataset.baseUrl || '';
 
-  let prevSong = "" as string;
-  let primaryColor = "" as string;
+	let prevSong = '';
+	let isExpanded = false;
 
-  async function fetchNowPlaying() {
-    try {
-      const res = await fetch(`${BASE_URL}api/nowplaying`);
-      const data = await res.json();
+	// Toggle expand on button click
+	trigger.addEventListener('click', () => {
+		isExpanded = !isExpanded;
+		expand.classList.toggle('expand-open', isExpanded);
+		trigger.classList.toggle('trigger-open', isExpanded);
+		trigger.setAttribute('aria-expanded', String(isExpanded));
+	});
 
-      if (!data.currTrack) {
-        console.log('No track data available');
-        return;
-      }
+	// Close on outside click
+	document.addEventListener('mousedown', (e) => {
+		if (isExpanded && !widget.contains(e.target as Node)) {
+			isExpanded = false;
+			expand.classList.remove('expand-open');
+			trigger.classList.remove('trigger-open');
+			trigger.setAttribute('aria-expanded', 'false');
+		}
+	});
 
-      const albumArt = data.currTrack.image;
-      const songUrl = data.currTrack.url;
-      const isPlaying = data.currTrack.isPlaying;
+	// Load album art and extract color
+	const loadAlbumArt = (imgUrl: string): Promise<string> => {
+		return new Promise((resolve, reject) => {
+			albumArt.crossOrigin = 'anonymous';
+			albumArt.src = imgUrl;
+			albumArt.onload = () => {
+				albumArt.onload = null;
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+				canvas.width = albumArt.naturalWidth;
+				canvas.height = albumArt.naturalHeight;
+				ctx.drawImage(albumArt, 0, 0);
+				const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+				const primary = getPrimaryColor(data);
+				const top3 = getTopColors(data, 3);
+				top3.forEach((hex, i) => {
+					document.documentElement.style.setProperty(`--music-color-${i + 1}`, hexToRgbTriplet(hex));
+				});
+				// Show album art, hide placeholder
+				artPlaceholder.style.display = 'none';
+				songUrl.style.display = 'block';
+				songUrl.href = '#';
+				resolve(primary);
+			};
+			albumArt.onerror = () => reject(new Error(`Failed to load: ${imgUrl}`));
+		});
+	};
 
-      const songUrlId = document.getElementById('songUrl') as HTMLAnchorElement;
-      const soundwave = document.getElementById('soundwave') as SVGElement;
+	async function fetchNowPlaying() {
+		try {
+			const res  = await fetch(`${BASE_URL}api/nowplaying`);
+			const data = await res.json();
+			if (!data.currTrack) return;
 
-      songUrlId.href = songUrl;
+			const { image, url, title, artist, isPlaying } = data.currTrack;
 
-      // Toggle animation and appearance based on playing state
-      const bars = soundwave.querySelectorAll('.bar');
-      if (isPlaying) {
-        soundwave.classList.add('playing');
-        // Restore bar heights for animation
-        (bars[0] as SVGRectElement).setAttribute('y', '8');
-        (bars[0] as SVGRectElement).setAttribute('height', '8');
-        (bars[1] as SVGRectElement).setAttribute('y', '4');
-        (bars[1] as SVGRectElement).setAttribute('height', '16');
-        (bars[2] as SVGRectElement).setAttribute('y', '6');
-        (bars[2] as SVGRectElement).setAttribute('height', '12');
-        (bars[3] as SVGRectElement).setAttribute('y', '2');
-        (bars[3] as SVGRectElement).setAttribute('height', '20');
-        (bars[4] as SVGRectElement).setAttribute('y', '7');
-        (bars[4] as SVGRectElement).setAttribute('height', '10');
-      } else {
-        soundwave.classList.remove('playing');
-        // Flatline all bars
-        bars.forEach(bar => {
-          (bar as SVGRectElement).setAttribute('y', '11');
-          (bar as SVGRectElement).setAttribute('height', '2');
-        });
-      }
+			// Update text
+			titleEl.textContent  = title  || '—';
+			artistEl.textContent = artist || '—';
+			songUrl.href = url || '#';
 
-      // In future, only change color if image has changed. Make a boolean/flag for this
-      if (prevSong !== songUrl) {
-          primaryColor = await loadImage(albumArt);
-          prevSong = songUrl;
-          if (card) card.style.border = `2px solid ${primaryColor}`;
+			// Soundwave animation
+			if (isPlaying) {
+				soundwave.classList.add('sw-playing');
+			} else {
+				soundwave.classList.remove('sw-playing');
+			}
 
-          // Update SVG colors
-          bars.forEach(bar => (bar as SVGElement).style.fill = primaryColor);
-      }
+			// Extract and apply color only when track changes
+			if (image && url !== prevSong) {
+				prevSong = url;
+				await loadAlbumArt(image);
+			}
+		} catch (err) {
+			console.error('[MusicStatus]', err);
+		}
+	}
 
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  
-  const loadImage = (img_url: string): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const albumArt = document.getElementById('albumArt') as HTMLImageElement;
-      albumArt.crossOrigin = 'anonymous';
-      albumArt.src = img_url;
-
-      albumArt.onload = () => {
-        albumArt.onload = null;
-
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-        canvas.width = albumArt.width;
-        canvas.height = albumArt.height;
-        ctx.drawImage(albumArt, 0, 0);
-
-        // [R, G, B, A ... ]
-        const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const primaryColor = getPrimaryColor(data);
-        const topColors = getTopColors(data, 3);
-        topColors.forEach((hex, i) => {
-          document.documentElement.style.setProperty(`--music-color-${i + 1}`, hexToRgbTriplet(hex));
-        });
-
-        albumArt.style.border = `2px solid ${primaryColor}`;
-
-        resolve(primaryColor);
-      };
-
-      albumArt.onerror = () => reject(new Error(`Failed to load image: ${img_url}`));
-    });
-  };
-  
-
-  fetchNowPlaying();
-  setInterval(fetchNowPlaying, 5000);
+	fetchNowPlaying();
+	setInterval(fetchNowPlaying, 5000);
 </script>
-
-<style>
-
-.icon {
-  width: 24px;
-  height: 24px;
-}
-
-#soundwave .bar {
-  fill: #c561f6;
-}
-
-/* When playing, animate the bars. Edit the first field to change speed of animation*/
-#soundwave.playing .bar {
-  animation: soundwave 0.60s ease-in-out infinite;
-}
-
-#soundwave.playing .bar1 {
-  animation-delay: 0s;
-}
-
-#soundwave.playing .bar2 {
-  animation-delay: 0.1s;
-}
-
-#soundwave.playing .bar3 {
-  animation-delay: 0.2s;
-}
-
-#soundwave.playing .bar4 {
-  animation-delay: 0.3s;
-}
-
-#soundwave.playing .bar5 {
-  animation-delay: 0.4s;
-}
-
-@keyframes soundwave {
-  0%, 100% {
-    transform: scaleY(1);
-    transform-origin: center;
-  }
-  50% {
-    transform: scaleY(0.5);
-    transform-origin: center;
-  }
-}
-
-.nowPlayingCard {
-    flex-shrink: 0;
-    border-radius: 22px;
-    border: 2px solid #c561f6;
-    box-shadow: var(--shadow-md); /* to match the other header component */
-    align-items: center;
-    width: 160px;
-    height: 56px;
-    display: flex;
-    justify-content: space-evenly;
-    transition: all 0.5s ease;
-    overflow: hidden;
-}
-
-    
-  .nowPlayingCard a {
-      color: #c561f6;
-      text-decoration: none;
-  }
-
-  .nowPlayingCard a:hover {
-      color: #c561f6;
-      text-decoration: underline;
-  }
-
-  .nowPlayingImage {
-    flex-shrink: 0;
-  }
-
-  .nowPlayingImage img {
-      border-radius: 8px;
-      border: 2px solid #491265;
-      box-shadow: var(--shadow-md);
-      transition: all 0.5s ease;
-      width: 40px;
-      height: 40px;
-      margin: 10px;
-      flex-shrink: 0;
-      object-fit: cover;
-      display: block;
-  }
-
-
-  .nowPlayingImage img:hover {
-      opacity: 0.8;
-  }
-
-#nowPlayingDetails {
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-  .nowPlayingTitle, .playlistName {
-      flex-shrink: 0;
-      color: #000;
-      white-space: nowrap;
-      text-align: left;
-      font-size: 20px;
-      width: 100%;
-  }
-
-  .nowPlayingArtist, .playlistHeader {
-      text-align: left;
-      flex-shrink: 0;
-      overflow: hidden;
-      white-space: nowrap;
-      width: 100%;
-  }
-
-  .nowPlayingTime {
-      text-align: left;
-  }
-
-  .nowPlayingState {
-      text-align: center;
-      width: 20%;
-      padding: 10px;
-  }
-
-  .nowPlayingState img{
-      filter: invert(100%);
-      width: 100%;
-  }
-</style>

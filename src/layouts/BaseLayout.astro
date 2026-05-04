@@ -1,13 +1,8 @@
 ---
-// Learn about using Astro layouts:
-// https://docs.astro.build/en/core-concepts/layouts/
-
 import Footer from '../components/Footer.astro';
 import MainHead from '../components/MainHead.astro';
 import Nav from '../components/Nav.astro';
-import DebugUserToggle from '../components/DebugUserToggle.astro';
 import WaveBackground from '../components/WaveBackground.astro';
-import config from '../config';
 
 interface Props {
 	title?: string | undefined;
@@ -15,6 +10,8 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+import config from '../config';
 
 const toVars = (map: Record<string, string>) =>
 	Object.entries(map).map(([k, v]) => `--${k}: ${v};`).join(' ');
@@ -28,24 +25,24 @@ const themeStyle = `
 <html lang="en">
 	<head>
 		<MainHead title={title} description={description} />
-<Fragment set:html={`<style>${themeStyle}</style>`} />
+		<Fragment set:html={`<style>${themeStyle}</style>`} />
 	</head>
 	<body>
-		<WaveBackground fallbackColor={config.theme.fallbackColor} />
-		<div class="stack backgrounds">
+		<!-- Animated blob background -->
+		<WaveBackground />
+
+		<div class="layout-stack">
 			<Nav />
 			<slot />
 			<Footer />
 		</div>
-		<DebugUserToggle />
 
 		<script>
-			// Add “loaded” class once the document has completely loaded.
 			addEventListener('load', () => document.documentElement.classList.add('loaded'));
 		</script>
 
 		<style>
-			.backgrounds {
+			.layout-stack {
 				position: relative;
 				z-index: 1;
 				min-height: 100%;

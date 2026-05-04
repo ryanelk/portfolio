@@ -1,103 +1,180 @@
 ---
-import ContactCTA from '../components/ContactCTA.astro';
-import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import config from '../config/index';
+
+const resume = `${import.meta.env.BASE_URL}assets/resume/${config.resume.filename}`;
 ---
 
 <BaseLayout title={`About | ${config.name}`} description={`About ${config.name}`}>
-	<div class="stack gap-20">
-		<main class="wrapper about">
-			<Hero
-				title="About"
-				tagline="Thanks for stopping by. Read below to learn more about myself and my background."
-			>
-				<img
-					width="1553"
-					height="873"
-					src=`${import.meta.env.BASE_URL}assets/at-work.jpg`
-					alt="Ryan El Khoury at work with a colleague"
-				/>
-			</Hero>
+	<main class="about-page wrapper">
 
-			<section>
-				<h2 class="section-title">Background</h2>
-				<div class="content">
-					{config.about.background && <p>{config.about.background}</p>}
-				</div>
-			</section>
-			<section>
-				<h2 class="section-title">Education</h2>
-				<div class="content">
-					<p>{config.about.education}</p>
-				</div>
-			</section>
-			<section>
-				<h2 class="section-title">Skills</h2>
-				<div class="content">
-					<p>{config.about.skills}</p>
-				</div>
-			</section>
-		</main>
+		<!-- About -->
+		<section class="about-bio">
+			<h1 class="about-name">{config.name}</h1>
+			<p class="about-text">{config.about.background}</p>
+			<p class="about-text">{config.about.education}</p>
+			<p class="about-skills">{config.about.skills}</p>
+		</section>
 
-		<ContactCTA />
-	</div>
+		<!-- Resume -->
+		<section class="about-resume">
+			<a href={resume} download={config.resume.downloadName} class="resume-btn">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M12 10v6m0 0l-3-3m3 3l3-3M7 19H5a2 2 0 01-2-2V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2h-2"/>
+				</svg>
+				download resume
+			</a>
+		</section>
+
+		<!-- Contact -->
+		<section class="about-contact">
+			<h2 class="contact-label">send me a message</h2>
+			<form class="contact-form" action={`mailto:${config.contact.email.replace('mailto:', '')}`} method="post" enctype="text/plain">
+				<input type="email" name="email" placeholder="your email" required />
+				<textarea name="message" rows="4" placeholder="your message" required></textarea>
+				<button type="submit">send</button>
+			</form>
+		</section>
+
+	</main>
 </BaseLayout>
 
 <style>
-	.about {
+	.about-page {
 		display: flex;
 		flex-direction: column;
-		gap: 3.5rem;
+		gap: 4rem;
+		padding-top: 4rem;
+		padding-bottom: 7rem;
 	}
 
-	img {
-		margin-top: 1.5rem;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
-	}
-
-	section {
+	/* ── Bio ── */
+	.about-bio {
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: 1.1rem;
+		max-width: 640px;
+	}
+
+	.about-name {
+		font-family: var(--font-brand);
+		font-size: clamp(2rem, 4vw, 3rem);
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		color: var(--gray-0);
+		margin: 0;
+	}
+
+	.about-text {
+		font-family: var(--font-body);
+		font-size: 1rem;
+		line-height: 1.75;
 		color: var(--gray-200);
+		margin: 0;
 	}
 
-	.section-title {
-		grid-column-start: 1;
-		font-size: var(--text-xl);
+	.about-skills {
+		font-family: var(--font-body);
+		font-size: 0.85rem;
+		line-height: 1.7;
+		color: var(--gray-300);
+		margin: 0;
+	}
+
+	/* ── Resume ── */
+	.resume-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-family: var(--font-body);
+		font-size: 0.92rem;
+		letter-spacing: 0.06em;
+		color: var(--gray-0);
+		background: rgba(255, 255, 255, 0.08);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		border-radius: 999px;
+		padding: 0.6rem 1.4rem;
+		text-decoration: none;
+		backdrop-filter: blur(20px);
+		box-shadow:
+			inset 0 1px 0 rgba(255,255,255,0.22),
+			inset 0 -1px 0 rgba(0,0,0,0.15),
+			inset 0 2px 8px rgba(0,0,0,0.35);
+		transition: background 0.2s ease, color 0.2s ease;
+	}
+
+	.resume-btn:hover {
+		background: rgba(255, 255, 255, 0.13);
 		color: var(--gray-0);
 	}
 
-	.content {
-		grid-column: 2 / 4;
+	/* ── Contact ── */
+	.about-contact {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		max-width: 480px;
 	}
 
-	.content :global(a) {
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
+	.contact-label {
+		font-family: var(--font-body);
+		font-size: 0.92rem;
+		letter-spacing: 0.1em;
+		color: var(--gray-300);
+		margin: 0;
+		font-weight: 400;
 	}
 
-	.content :global(a:hover),
-	.content :global(a:focus) {
-		text-decoration-color: currentColor;
+	.contact-form {
+		display: flex;
+		flex-direction: column;
+		gap: 0.65rem;
 	}
 
-	@media (min-width: 50em) {
-		.about {
-			display: grid;
-			grid-template-columns: 1fr 60% 1fr;
-		}
+	input,
+	textarea {
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		color: var(--gray-0);
+		background: rgba(255, 255, 255, 0.05);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 0.6rem;
+		padding: 0.65rem 0.9rem;
+		outline: none;
+		resize: none;
+		transition: border-color 0.2s ease;
+	}
 
-		.about > :global(:first-child) {
-			grid-column-start: 2;
-		}
+	input::placeholder,
+	textarea::placeholder {
+		color: var(--gray-400);
+	}
 
-		section {
-			display: contents;
-			font-size: var(--text-lg);
-		}
+	input:focus,
+	textarea:focus {
+		border-color: rgba(var(--music-color-1, 118, 17, 166), 0.6);
+	}
+
+	button {
+		align-self: flex-start;
+		font-family: var(--font-body);
+		font-size: 0.92rem;
+		letter-spacing: 0.06em;
+		color: var(--gray-0);
+		background: rgba(255, 255, 255, 0.08);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		border-radius: 999px;
+		padding: 0.55rem 1.4rem;
+		cursor: pointer;
+		backdrop-filter: blur(20px);
+		box-shadow:
+			inset 0 1px 0 rgba(255,255,255,0.22),
+			inset 0 -1px 0 rgba(0,0,0,0.15),
+			inset 0 2px 8px rgba(0,0,0,0.35);
+		transition: background 0.2s ease;
+	}
+
+	button:hover {
+		background: rgba(255, 255, 255, 0.13);
 	}
 </style>
