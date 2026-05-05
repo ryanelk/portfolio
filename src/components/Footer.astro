@@ -7,12 +7,12 @@ const currentYear = new Date().getFullYear();
 
 <footer class="rek-footer">
 	<div class="rek-footer-inner">
-		<span class="rek-footer-brand">REK</span>
+		<span class="rek-footer-brand">{config.watermark}</span>
 		<ul class="rek-footer-socials">
 			{config.socials.map(({ href, icon, label }) => (
 				<li>
 					<a href={href} aria-label={label}>
-						<Icon icon={icon} size="1.1em" />
+						<Icon icon={icon} size="1.6em" />
 					</a>
 				</li>
 			))}

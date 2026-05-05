@@ -50,6 +50,7 @@ const ryan: UserConfig = {
 		},
 	},
 	name: 'Ryan El Khoury',
+	watermark: 'REK',
 	hero: {
 		// Title is no longer used — Hero.astro renders "Development with intention." directly.
 		// Tagline is passed as the subtitle line.

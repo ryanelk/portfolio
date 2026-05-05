@@ -48,6 +48,7 @@ const reina: UserConfig = {
 		},
 	},
 	name: 'Reina El Khoury',
+	watermark: 'REINA',
 	hero: {
 		title: 'Hello, my name is Reina El Khoury',
 		tagline: 'I am graduating soon from UCI as a CompSci Major while doing DevOps and Sysadmin as part-time work!',

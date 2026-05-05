@@ -1,4 +1,6 @@
 ---
+import config from '../config/index';
+
 interface Props {
 	tagline?: string;
 	titleCfgKey?: string;
@@ -8,8 +10,7 @@ const { tagline, titleCfgKey, taglineCfgKey } = Astro.props;
 ---
 
 <section class="rek-hero">
-	<!-- Large faint REK watermark -->
-	<span class="rek-hero-watermark" aria-hidden="true">REK</span>
+	<span class="rek-hero-watermark" aria-hidden="true">{config.watermark}</span>
 
 	<div class="rek-hero-content">
 		<h1 class="rek-hero-heading" data-cfg={titleCfgKey}>

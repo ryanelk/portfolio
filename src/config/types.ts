@@ -35,6 +35,7 @@ export interface UserConfig {
 	id: 'ryan' | 'reina';
 	theme: UserTheme;
 	name: string;
+	watermark: string;
 	hero: {
 		title: string;
 		tagline: string;
